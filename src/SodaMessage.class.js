@@ -1,6 +1,6 @@
 "use strict";
 
-class SodaMessage {
+export class SodaMessage {
     constructor(sessionId) {
         // Mandatory message fields:
         this.sessionId = sessionId;
@@ -27,6 +27,7 @@ class SodaMessage {
         }
 
         var res = {};
+        var that = this;
         for (var prop in that) {
             if (that.hasOwnProperty(prop) && (!isInArray(prop, ['toObject', 'success', 'msg'])) && (that[prop] !== null)) {
                 res[prop] = that[prop];
@@ -37,7 +38,7 @@ class SodaMessage {
     };
 
     toString() {
-        JSON.stringify(this.toObject());
+        return JSON.stringify(this.toObject());
     }
 }
 
@@ -147,5 +148,3 @@ SodaMessage.prototype.sendRemoteMessage = function() {
     }
     return {success: true};
 };
-
-export default SodaMessage;
