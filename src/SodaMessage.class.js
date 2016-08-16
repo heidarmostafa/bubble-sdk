@@ -1,5 +1,19 @@
 "use strict";
 
+import {utf8ToB64, parseJSON, stringifyJSON, isInArray} from './utils.js';
+
+Promise.prototype['finally'] = function (f) {
+    return this.then(function (value) {
+        return Promise.resolve(f()).then(function () {
+            return value;
+        });
+    }, function (err) {
+        return Promise.resolve(f()).then(function () {
+            throw err;
+        });
+    });
+};
+
 export class SodaMessage {
     constructor(sessionId) {
         // Mandatory message fields:
@@ -8,6 +22,7 @@ export class SodaMessage {
 
         // Non mandatory fields:
         this.payload = "";
+        this.updateMsg = false;
         this.actionType = null;
         this.title = null;
         this.subTitle = null;
@@ -15,22 +30,17 @@ export class SodaMessage {
         this.iconUrl = null;
         this.bannerUrl = null;
         this.bubbleAppUrl = null;
-        this.updateMsg = true;
 
+        // local vars for relaying problematic handling.
         this.success = true;
         this.msg = "";
     }
 
     toObject() {
-        function isInArray(value, array) {
-            return array.indexOf(value) > -1;
-        }
-
-        var res = {};
-        var that = this;
-        for (var prop in that) {
-            if (that.hasOwnProperty(prop) && (!isInArray(prop, ['toObject', 'success', 'msg'])) && (that[prop] !== null)) {
-                res[prop] = that[prop];
+        let res = {};
+        for (let prop in this) {
+            if (this.hasOwnProperty(prop) && (!isInArray(prop, ['toObject', 'success', 'msg'])) && (this[prop] !== null)) {
+                res[prop] = this[prop];
             }
         }
 
@@ -38,7 +48,10 @@ export class SodaMessage {
     };
 
     toString() {
-        return JSON.stringify(this.toObject());
+        return stringifyJSON(this.toObject())
+            .then((str)=>{
+                return str;
+        });
     }
 }
 
@@ -53,38 +66,29 @@ SodaMessage.prototype.setPriority = function(priority) {
 };
 
 SodaMessage.prototype.setPayload = function(payload) {
-    var bubbleSdk = new BubbleSdkVar();
-
-    var myPayload = bubbleSdk.b64_to_utf8(bubbleSdk.stringifyJSON(payload));
-    if (myPayload !== null) {
-        this.success = true;
-        this.payload = myPayload;
-    } else {
+    stringifyJSON(payload)
+        .then((jsonAsString) => {
+           return utf8ToB64(jsonAsString)
+        }).then((jsonAsBase64) => {
+            this.success = true;
+            this.payload = jsonAsBase64;
+    }).catch((error)=> {
         this.success = false;
-        this.msg = "Payload is not in the correct format";
+        this.msg = error.message;
         this.payload = "";
-    }
-
-    return this;
+    }).finally(() => { return this; });
 };
 
 SodaMessage.prototype.setActionType = function(actionType) {
-    var ACTION_TYPES = ["OPEN", "PLAY", "INSTALL", "ACCEPT", "DOWNLOAD", "PAY NOW", "SHOP NOW", "SIGN UP", "BOOK NOW", "VOTE"];
-    var flag = false;
+    const ACTION_TYPES = ["OPEN", "PLAY", "INSTALL", "ACCEPT", "DOWNLOAD", "PAY NOW", "SHOP NOW", "SIGN UP", "BOOK NOW", "VOTE"];
 
-    if (actionType === null) {
-        flag = true;
+    if (actionType === null || isInArray(actionType, ACTION_TYPES)) {
+        this.actionType = actionType;
     } else {
-        for (var i=0; i < ACTION_TYPES.length; i++){
-            if (ACTION_TYPES[i] === actionType) flag = true;
-        }
+        this.msg = "No such action type";
+        this.success = false;
     }
 
-    this.success = flag;
-    if (!flag) {
-        this.msg = "No such action type";
-    }
-    this.actionType = actionType;
     return this;
 };
 
@@ -124,27 +128,21 @@ SodaMessage.prototype.setUpdateMsg = function(updateMsg) {
 };
 
 SodaMessage.prototype.sendLocalMessage = function() {
-    if (!this.success) return {success: false, msg: this.msg};
-    var bubbleSdk = new BubbleSdkVar();
-    var metadata = bubbleSdk.parseJSON(this.toObject());
-    if (metadata) {
-        BubbleAPI.sendLocalMessage(metadata);
-    } else {
-        return {success: false, msg: this.msg};
-    }
-    return {success: true};
+    return new Promise((resolve, reject)=>{
+        if (!this.success) return reject(new Error(this.msg));
+        parseJSON(this.toObject())
+            .then((metadata)=>{
+                window.BubbleAPI.sendLocalMessage(metadata);
+        });
+    });
 };
 
 SodaMessage.prototype.sendRemoteMessage = function() {
-    if (!this.success)
-        return {success: false, msg: this.msg};
-
-    var bubbleSdk = new BubbleSdkVar();
-    var metadata = bubbleSdk.parseJSON(this.toObject());
-    if (metadata) {
-        BubbleAPI.sendMessage(metadata);
-    } else {
-        return {success: false, msg: this.msg};
-    }
-    return {success: true};
+    return new Promise((resolve, reject)=>{
+        if (!this.success) return reject(new Error(this.msg));
+        parseJSON(this.toObject())
+            .then((metadata)=>{
+                window.BubbleAPI.sendMessage(metadata);
+            });
+    });
 };
