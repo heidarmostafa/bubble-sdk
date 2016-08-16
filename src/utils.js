@@ -20,20 +20,20 @@ export function b64ToUtf8(str) {
     });
 }
 
-export function stringifyJSON(str) {
+export function stringifyJSON(json) {
     return new Promise((resolve, reject)=> {
         try {
-            resolve(JSON.stringify(str));
+            resolve(JSON.stringify(json));
         } catch (e) {
             reject(e);
         }
     });
 }
 
-export function parseJSON(json) {
+export function parseJSON(str) {
     return new Promise((resolve, reject)=> {
         try {
-            resolve(JSON.parse(json));
+            resolve(JSON.parse(str));
         } catch (e) {
             reject(e);
         }

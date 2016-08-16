@@ -1,6 +1,6 @@
 "use strict";
 
-import {utf8ToB64, parseJSON, stringifyJSON, isInArray} from './utils.js';
+import {utf8ToB64, stringifyJSON, isInArray} from './utils.js';
 
 Promise.prototype['finally'] = function (f) {
     return this.then(function (value) {
@@ -39,7 +39,7 @@ export class SodaMessage {
     toObject() {
         let res = {};
         for (let prop in this) {
-            if (this.hasOwnProperty(prop) && (!isInArray(prop, ['toObject', 'success', 'msg'])) && (this[prop] !== null)) {
+            if (this.hasOwnProperty(prop) && (!isInArray(prop, ['toObject', 'toString', 'success', 'msg'])) && (this[prop] !== null)) {
                 res[prop] = this[prop];
             }
         }
@@ -66,17 +66,21 @@ SodaMessage.prototype.setPriority = function(priority) {
 };
 
 SodaMessage.prototype.setPayload = function(payload) {
-    stringifyJSON(payload)
+    return stringifyJSON(payload)
         .then((jsonAsString) => {
            return utf8ToB64(jsonAsString)
         }).then((jsonAsBase64) => {
             this.success = true;
             this.payload = jsonAsBase64;
+            return this;
     }).catch((error)=> {
         this.success = false;
         this.msg = error.message;
         this.payload = "";
-    }).finally(() => { return this; });
+        return this;
+    }).finally((thisInstance) => {
+        return thisInstance;
+    });
 };
 
 SodaMessage.prototype.setActionType = function(actionType) {
@@ -130,7 +134,7 @@ SodaMessage.prototype.setUpdateMsg = function(updateMsg) {
 SodaMessage.prototype.sendLocalMessage = function() {
     return new Promise((resolve, reject)=>{
         if (!this.success) return reject(new Error(this.msg));
-        parseJSON(this.toObject())
+        stringifyJSON(this.toObject())
             .then((metadata)=>{
                 window.BubbleAPI.sendLocalMessage(metadata);
         });
@@ -140,7 +144,7 @@ SodaMessage.prototype.sendLocalMessage = function() {
 SodaMessage.prototype.sendRemoteMessage = function() {
     return new Promise((resolve, reject)=>{
         if (!this.success) return reject(new Error(this.msg));
-        parseJSON(this.toObject())
+        stringifyJSON(this.toObject())
             .then((metadata)=>{
                 window.BubbleAPI.sendMessage(metadata);
             });
