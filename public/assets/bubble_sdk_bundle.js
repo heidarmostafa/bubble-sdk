@@ -322,9 +322,10 @@
 	        return msgGenerator({});
 	    };
 	
-	    this.openInExternalBrowser = function(err) {
+	    this.openInExternalBrowser = function(url, err) {
 	        if (typeof err === "number" && err >= 0) return errorMsgGenerator(err);
-	        return msgGenerator({});
+	        var windowId = window.open(url);
+	        return msgGenerator({'windowId' : windowId});
 	    };
 	
 	    this.getProductId = function() {
@@ -377,7 +378,9 @@
 	
 	        var paramUserId = getURLParameter('userId');
 	        var paramContextId = getURLParameter('conversationId');
+	        var currentUser = firstUser;
 	        if (paramUserId && paramContextId){
+	            currentUser = paramUserId;
 	            conversationId = paramContextId;
 	            var allConversations = decryptMsg(storage.getItem("SODA_conversations"));
 	            mockItem = allConversations[paramContextId];
@@ -396,8 +399,8 @@
 	        var paramSessionId = getURLParameter('sessionId');
 	        if (paramSessionId){
 	            var a = decryptMsg(storage.getItem("SODA_ITEM"));
-	            if (a && a.hasOwnProperty(paramSessionId) && a[paramSessionId].hasOwnProperty(firstUser)) {
-	                payloads[paramSessionId] = a[paramSessionId][firstUser];
+	            if (a && a.hasOwnProperty(paramSessionId) && a[paramSessionId].hasOwnProperty(currentUser)) {
+	                payloads[paramSessionId] = a[paramSessionId][currentUser];
 	            }
 	        }
 	        that.setLastLocation({
@@ -472,194 +475,137 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+	"use strict";
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _SodaMessage = __webpack_require__(5);
 	
-	var _SodaMessage = __webpack_require__(6);
+	var _utils = __webpack_require__(6);
 	
-	var _utils = __webpack_require__(7);
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	(function (global, factory) {
-	    "use strict";
-	
-	    if (( false ? "undefined" : _typeof(module)) === "object" && _typeof(module.exports) === "object") {
-	
-	        // For CommonJS and CommonJS-like environments where a proper `window`
-	        // is present, execute the factory and get BubbleSdk.
-	        // For environments that do not have a `window` with a `document`
-	        // (such as Node.js), expose a factory as module.exports.
-	        // This accentuates the need for the creation of a real `window`.
-	        // e.g. let BubbleSdk = require("BubbleSdk")(window);
-	        //noinspection JSUnresolvedVariable
-	        module.exports = global.document ? factory(global, true) : function (w) {
-	            if (!w.document) {
-	                throw new Error("BubbleSdk requires a window with a document");
-	            }
-	            return factory(w);
-	        };
-	    } else {
-	        factory(global);
+	//noinspection JSUnusedLocalSymbols
+	module.exports = function () {
+	    function BubbleSdk() {
+	        _classCallCheck(this, BubbleSdk);
 	    }
 	
-	    // Pass this if window is not defined yet
-	})(typeof window !== "undefined" ? window : undefined, function (window, noGlobal) {
-	
-	    "use strict";
-	
-	    var extractResultFromJson = function extractResultFromJson(json) {
-	        return new Promise(function (resolve, reject) {
-	            if (json.success && json.result) {
-	                return resolve(json['result']);
-	            } else {
-	                if (json['result'] && json['result']['errorId']) {
-	                    return reject(json['result']['errorId']);
+	    _createClass(BubbleSdk, null, [{
+	        key: "_extractResultFromJson",
+	        value: function _extractResultFromJson(json) {
+	            return new Promise(function (resolve, reject) {
+	                if (json.success && json.result) {
+	                    return resolve(json['result']);
 	                } else {
-	                    return reject("No result from BubbleApi");
-	                }
-	            }
-	        });
-	    };
-	
-	    // let extractResultFromJson2 = function (json, field) {
-	    //     let res = null;
-	    //     if (json.success && json.result && field === 'wholeObject'){
-	    //         return json.result
-	    //     }
-	    //
-	    //     if (json.success && json.result && json['result'][field] ){
-	    //         res = json['result'][field];
-	    //         if (field === 'payload') {
-	    //             return that.b64_to_utf8(res);
-	    //         }
-	    //     } else {
-	    //         if (field === 'picture') {
-	    //             res = "";
-	    //         }
-	    //     }
-	    //     return res;
-	    // };
-	
-	    var getPromisedValueFromSdk = function getPromisedValueFromSdk(field, call, args) {
-	        return (0, _utils.parseJSON)(window.BubbleAPI[call](args)).then(function (sdkResultJson) {
-	            if (field) {
-	                return extractResultFromJson(sdkResultJson);
-	            } else {
-	                throw new Error("Promise Chain break");
-	            }
-	        }).then(function (resultObj) {
-	            return resultObj[field];
-	        }).catch(function (error) {
-	            if (error.message === "Promise Chain break") {
-	                return Promise.resolve();
-	            } else {
-	                throw new Error(error);
-	            }
-	        });
-	    };
-	
-	    var BubbleSdk = function () {
-	        function BubbleSdk() {
-	            // this.sodaMessage = null; // new SodaMessage("123")
-	
-	            _classCallCheck(this, BubbleSdk);
-	        }
-	
-	        _createClass(BubbleSdk, null, [{
-	            key: "getMyLastSession",
-	            value: function getMyLastSession() {
-	                return getPromisedValueFromSdk('sessionId', 'getLastSession');
-	            }
-	        }, {
-	            key: "closeBubble",
-	            value: function closeBubble() {
-	                return getPromisedValueFromSdk(null, 'closeBubble');
-	            }
-	        }, {
-	            key: "getContext",
-	            value: function getContext() {
-	                return getPromisedValueFromSdk('context', 'getContext');
-	            }
-	        }, {
-	            key: "getPayload",
-	            value: function getPayload(sessionId) {
-	                return getPromisedValueFromSdk('payload', 'getPayload', sessionId).then(function (base64Json) {
-	                    if (base64Json === null) {
-	                        return Promise.resolve(null);
+	                    if (json['result'] && json['result']['errorId']) {
+	                        return reject(json['result']['errorId']);
 	                    } else {
-	                        return (0, _utils.b64ToUtf8)(base64Json);
+	                        return reject("No result from BubbleApi");
 	                    }
-	                }).then(function (jsonAsString) {
-	                    return (0, _utils.parseJSON)(jsonAsString);
-	                });
-	            }
-	        }, {
-	            key: "createUniqueSessionIdIfOldNotFound",
-	            value: function createUniqueSessionIdIfOldNotFound() {
-	                return this.getMyLastSession().catch(function () {
-	                    return Promise.resolve((0, _utils.generateUUID)());
-	                });
-	            }
-	        }, {
-	            key: "getMessageInstance",
-	            value: function getMessageInstance(sessionId) {
-	                return new _SodaMessage.SodaMessage(sessionId);
-	            }
-	        }]);
+	                }
+	            });
+	        }
+	    }, {
+	        key: "_getPromisedValueFromSdk",
+	        value: function _getPromisedValueFromSdk(field, call, args) {
+	            var _window$BubbleAPI,
+	                _this = this;
 	
-	        return BubbleSdk;
-	    }();
-	
-	    var SodaDeviceData = function SodaDeviceData() {
-	
-	        this.lastLocation = {};
-	
-	        // getLastKnownLocation
-	        // copyToClipboard
-	        // openInExternalBrowser
-	        // getCurrentLocationAsync
-	    };
-	
-	    var SodaUserData = function SodaUserData() {
-	
-	        this.me = {};
-	        this.contacts = [];
-	
-	        // getUserDetails
-	        // getFriendsDetails
-	        // getUserPicture
-	    };
-	
-	    if (!noGlobal) {
-	        window.BubbleSdk = BubbleSdk;
-	    }
+	            return (0, _utils.parseJSON)((_window$BubbleAPI = window.BubbleAPI)[call].apply(_window$BubbleAPI, _toConsumableArray(args))).then(function (sdkResultJson) {
+	                return _this._extractResultFromJson(sdkResultJson);
+	            }).then(function (resultObj) {
+	                if (field) {
+	                    return resultObj[field];
+	                } else {
+	                    return resultObj;
+	                }
+	            });
+	        }
+	    }, {
+	        key: "getMyLastSession",
+	        value: function getMyLastSession() {
+	            return this._getPromisedValueFromSdk('sessionId', 'getLastSession');
+	        }
+	    }, {
+	        key: "closeBubble",
+	        value: function closeBubble() {
+	            return (0, _utils.parseJSON)(window.BubbleAPI.closeBubble());
+	        }
+	    }, {
+	        key: "getContext",
+	        value: function getContext() {
+	            return this._getPromisedValueFromSdk('context', 'getContext');
+	        }
+	    }, {
+	        key: "getPayload",
+	        value: function getPayload(sessionId) {
+	            return this._getPromisedValueFromSdk('payload', 'getPayload', [sessionId]).then(function (base64Json) {
+	                if (base64Json === null) {
+	                    return Promise.resolve(null);
+	                } else {
+	                    return (0, _utils.b64ToUtf8)(base64Json);
+	                }
+	            }).then(function (jsonAsString) {
+	                return (0, _utils.parseJSON)(jsonAsString);
+	            });
+	        }
+	    }, {
+	        key: "createUniqueSessionIdIfOldNotFound",
+	        value: function createUniqueSessionIdIfOldNotFound() {
+	            return this.getMyLastSession().catch(function () {
+	                return Promise.resolve((0, _utils.generateUUID)());
+	            });
+	        }
+	    }, {
+	        key: "getMessageInstance",
+	        value: function getMessageInstance(sessionId) {
+	            return new _SodaMessage.SodaMessage(sessionId);
+	        }
+	    }, {
+	        key: "getLastKnownLocation",
+	        value: function getLastKnownLocation() {
+	            return this._getPromisedValueFromSdk(null, 'getLastKnownLocation');
+	        }
+	    }, {
+	        key: "copyToClipboard",
+	        value: function copyToClipboard(url) {
+	            return this._getPromisedValueFromSdk(null, 'copyToClipboard', [url]);
+	        }
+	    }, {
+	        key: "openInExternalBrowser",
+	        value: function openInExternalBrowser(url) {
+	            return this._getPromisedValueFromSdk(null, 'openInExternalBrowser', [url]);
+	        }
+	    }, {
+	        key: "getUserDetails",
+	        value: function getUserDetails() {
+	            return this._getPromisedValueFromSdk(null, 'getUserDetails');
+	        }
+	    }, {
+	        key: "getFriendsDetails",
+	        value: function getFriendsDetails() {
+	            return this._getPromisedValueFromSdk(null, 'getFriendsDetails');
+	        }
+	    }, {
+	        key: "getUserPicture",
+	        value: function getUserPicture(userId) {
+	            return this._getPromisedValueFromSdk('picture', 'getUserPicture', [userId]);
+	        }
+	    }, {
+	        key: "getCurrentLocationAsync",
+	        value: function getCurrentLocationAsync(cb) {
+	            window.BubbleAPI.getCurrentLocationAsync(cb);
+	        }
+	    }]);
 	
 	    return BubbleSdk;
-	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
+	}();
 
 /***/ },
 /* 5 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -671,21 +617,9 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _utils = __webpack_require__(7);
+	var _utils = __webpack_require__(6);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	Promise.prototype['finally'] = function (f) {
-	    return this.then(function (value) {
-	        return Promise.resolve(f()).then(function () {
-	            return value;
-	        });
-	    }, function (err) {
-	        return Promise.resolve(f()).then(function () {
-	            throw err;
-	        });
-	    });
-	};
 	
 	var SodaMessage = exports.SodaMessage = function () {
 	    function SodaMessage(sessionId) {
@@ -712,7 +646,7 @@
 	    }
 	
 	    _createClass(SodaMessage, [{
-	        key: 'toObject',
+	        key: "toObject",
 	        value: function toObject() {
 	            var res = {};
 	            for (var prop in this) {
@@ -724,7 +658,7 @@
 	            return res;
 	        }
 	    }, {
-	        key: 'toString',
+	        key: "toString",
 	        value: function toString() {
 	            return (0, _utils.stringifyJSON)(this.toObject()).then(function (str) {
 	                return str;
@@ -746,20 +680,18 @@
 	};
 	
 	SodaMessage.prototype.setPayload = function (payload) {
-	    var _this = this;
-	
-	    (0, _utils.stringifyJSON)(payload).then(function (jsonAsString) {
-	        return (0, _utils.utf8ToB64)(jsonAsString);
-	    }).then(function (jsonAsBase64) {
-	        _this.success = true;
-	        _this.payload = jsonAsBase64;
-	    }).catch(function (error) {
-	        _this.success = false;
-	        _this.msg = error.message;
-	        _this.payload = "";
-	    }).finally(function () {
-	        return _this;
-	    });
+	    try {
+	        var jsonAsBase64 = window.btoa(encodeURIComponent(JSON.stringify(payload)));
+	        this.success = true;
+	        this.payload = jsonAsBase64;
+	    } catch (error) {
+	        this.success = false;
+	        this.msg = error.message;
+	        this.payload = "";
+	    } finally {
+	        //noinspection ReturnInsideFinallyBlockJS
+	        return this;
+	    }
 	};
 	
 	SodaMessage.prototype.setActionType = function (actionType) {
@@ -811,29 +743,29 @@
 	};
 	
 	SodaMessage.prototype.sendLocalMessage = function () {
-	    var _this2 = this;
+	    var _this = this;
 	
 	    return new Promise(function (resolve, reject) {
-	        if (!_this2.success) return reject(new Error(_this2.msg));
-	        (0, _utils.stringifyJSON)(_this2.toObject()).then(function (metadata) {
+	        if (!_this.success) return reject(new Error(_this.msg));
+	        (0, _utils.stringifyJSON)(_this.toObject()).then(function (metadata) {
 	            window.BubbleAPI.sendLocalMessage(metadata);
 	        });
 	    });
 	};
 	
 	SodaMessage.prototype.sendRemoteMessage = function () {
-	    var _this3 = this;
+	    var _this2 = this;
 	
 	    return new Promise(function (resolve, reject) {
-	        if (!_this3.success) return reject(new Error(_this3.msg));
-	        (0, _utils.stringifyJSON)(_this3.toObject()).then(function (metadata) {
+	        if (!_this2.success) return reject(new Error(_this2.msg));
+	        (0, _utils.stringifyJSON)(_this2.toObject()).then(function (metadata) {
 	            window.BubbleAPI.sendMessage(metadata);
 	        });
 	    });
 	};
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
