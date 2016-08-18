@@ -3,11 +3,11 @@
   "version": "0.0.4",
   "private": true,
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "build": "export NODE_ENV=production; webpack --config webpack.config.js -p",
+    "win-build": "SET NODE_ENV=production && webpack --config webpack.config.js -p",
+    "dev-build": "webpack --config webpack.config.js"
   },
-  "dependencies": {
-    "lodash": "~4.13.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.11.4",
     "babel-loader": "^6.2.4",
