@@ -100,4 +100,20 @@ module.exports = class BubbleSdk {
         window.BubbleAPI.getCurrentLocationAsync(cb);
     };
 
+    static registerToPayloadEvent(cb){
+        window.setPayload = function(payload) {
+            try {
+                var jsonResult = JSON.parse(decodeURIComponent(window.atob(payload)));
+                cb(jsonResult, null);
+            } catch (e) {
+                cb(null, e);
+            }
+        };
+    };
+
+    static registerToBubbleClosedEvent(cb){
+        window.bubbleClosed = function() {
+            cb();
+        };
+    };
 };

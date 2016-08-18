@@ -45,18 +45,11 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	module.exports = __webpack_require__(3);
+	module.exports = __webpack_require__(2);
 
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["BubbleAPI"] = __webpack_require__(2);
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 2 */
 /***/ function(module, exports) {
 
 	var windowsObjectReference = {};
@@ -465,23 +458,23 @@
 
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["BubbleSdk"] = __webpack_require__(4);
+	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["BubbleSdk"] = __webpack_require__(3);
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_BubbleAPI) {"use strict";
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _SodaMessage = __webpack_require__(5);
+	var _SodaMessage = __webpack_require__(4);
 	
-	var _utils = __webpack_require__(6);
+	var _utils = __webpack_require__(5);
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
@@ -514,7 +507,7 @@
 	            var _window$BubbleAPI,
 	                _this = this;
 	
-	            return (0, _utils.parseJSON)((_window$BubbleAPI = window.BubbleAPI)[call].apply(_window$BubbleAPI, _toConsumableArray(args))).then(function (sdkResultJson) {
+	            return (0, _utils.parseJSON)((_window$BubbleAPI = __webpack_provided_window_dot_BubbleAPI)[call].apply(_window$BubbleAPI, _toConsumableArray(args))).then(function (sdkResultJson) {
 	                return _this._extractResultFromJson(sdkResultJson);
 	            }).then(function (resultObj) {
 	                if (field) {
@@ -532,7 +525,7 @@
 	    }, {
 	        key: "closeBubble",
 	        value: function closeBubble() {
-	            return (0, _utils.parseJSON)(window.BubbleAPI.closeBubble());
+	            return (0, _utils.parseJSON)(__webpack_provided_window_dot_BubbleAPI.closeBubble());
 	        }
 	    }, {
 	        key: "getContext",
@@ -597,18 +590,38 @@
 	    }, {
 	        key: "getCurrentLocationAsync",
 	        value: function getCurrentLocationAsync(cb) {
-	            window.BubbleAPI.getCurrentLocationAsync(cb);
+	            __webpack_provided_window_dot_BubbleAPI.getCurrentLocationAsync(cb);
+	        }
+	    }, {
+	        key: "registerToPayloadEvent",
+	        value: function registerToPayloadEvent(cb) {
+	            window.setPayload = function (payload) {
+	                try {
+	                    var jsonResult = JSON.parse(decodeURIComponent(window.atob(payload)));
+	                    cb(jsonResult, null);
+	                } catch (e) {
+	                    cb(null, e);
+	                }
+	            };
+	        }
+	    }, {
+	        key: "registerToBubbleClosedEvent",
+	        value: function registerToBubbleClosedEvent(cb) {
+	            window.bubbleClosed = function () {
+	                cb();
+	            };
 	        }
 	    }]);
 	
 	    return BubbleSdk;
 	}();
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_BubbleAPI) {"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -617,7 +630,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _utils = __webpack_require__(6);
+	var _utils = __webpack_require__(5);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -748,7 +761,7 @@
 	    return new Promise(function (resolve, reject) {
 	        if (!_this.success) return reject(new Error(_this.msg));
 	        (0, _utils.stringifyJSON)(_this.toObject()).then(function (metadata) {
-	            window.BubbleAPI.sendLocalMessage(metadata);
+	            __webpack_provided_window_dot_BubbleAPI.sendLocalMessage(metadata);
 	        });
 	    });
 	};
@@ -759,13 +772,14 @@
 	    return new Promise(function (resolve, reject) {
 	        if (!_this2.success) return reject(new Error(_this2.msg));
 	        (0, _utils.stringifyJSON)(_this2.toObject()).then(function (metadata) {
-	            window.BubbleAPI.sendMessage(metadata);
+	            __webpack_provided_window_dot_BubbleAPI.sendMessage(metadata);
 	        });
 	    });
 	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
