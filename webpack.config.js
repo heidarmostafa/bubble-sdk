@@ -1,35 +1,41 @@
-var path = require('path');
-var webpack = require('webpack');
+let path = require('path');
+let webpack = require('webpack');
 
-var entries = [
-    'soda-sandbox',
+let entries = [
     './src/bubble_sdk.js'
 ];
-// var pluginParams = {};
+let pluginParams = {};
+let outputBaseFile = 'bubble_sdk_bundle';
+let outputFilename = outputBaseFile;
+let sourceMaps = '';
+let isDebug = false;
 
-// if(process.env.NODE_ENV === 'development') {
-//     entries.unshift('soda-sandbox');
-//     pluginParams["window.BubbleAPI"] = "soda-sandbox";
-// }
+if((typeof process.env.NODE_ENV === 'undefined') || (process.env.NODE_ENV === 'development')) {
+    console.log('Compiling for development');
+    entries.unshift('soda-sandbox');
+    pluginParams["window.BubbleAPI"] = "soda-sandbox";
+    sourceMaps = 'source-map';
+    isDebug = true;
+} else {
+    console.log('Compiling for production');
+    outputFilename += ".min";
+}
 
+//noinspection SpellCheckingInspection,JSUnresolvedFunction
 module.exports = {
-    devtool: 'source-map',
+    devtool: sourceMaps,
     entry: entries,
-    debug: true,
+    debug: isDebug,
     output: {
         path: path.resolve('./public/assets'),
         publicPath: '/public/assets/',
-        filename: 'bubble_sdk_bundle.js'
+        filename: outputFilename + '.js'
     },
     plugins: [
-        // new webpack.ProvidePlugin(pluginParams)
+        new webpack.ProvidePlugin(pluginParams)
     ],
     module: {
         loaders: [
-            {
-                test: require.resolve('soda-sandbox'),
-                loader: 'expose?BubbleAPI'
-            },
             {
                 test: require.resolve('./src/bubble_sdk.js'),
                 loader: 'expose?BubbleSdk'

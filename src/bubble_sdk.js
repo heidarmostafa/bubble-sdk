@@ -3,36 +3,11 @@
 import {SodaMessage} from "./SodaMessage.class";
 import {parseJSON, generateUUID, b64ToUtf8} from './utils.js';
 
-( function( global, factory ) {
-    "use strict";
+//noinspection JSUnusedLocalSymbols
+module.exports = class BubbleSdk {
+    constructor() {}
 
-    if ( typeof module === "object" && typeof module.exports === "object" ) {
-
-        // For CommonJS and CommonJS-like environments where a proper `window`
-        // is present, execute the factory and get BubbleSdk.
-        // For environments that do not have a `window` with a `document`
-        // (such as Node.js), expose a factory as module.exports.
-        // This accentuates the need for the creation of a real `window`.
-        // e.g. let BubbleSdk = require("BubbleSdk")(window);
-        //noinspection JSUnresolvedVariable
-        module.exports = global.document ?
-            factory( global, true ) :
-            function( w ) {
-                if ( !w.document ) {
-                    throw new Error( "BubbleSdk requires a window with a document" );
-                }
-                return factory( w );
-            };
-    } else {
-        factory( global );
-    }
-
-// Pass this if window is not defined yet
-} )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
-
-    "use strict";
-
-    let extractResultFromJson = function (json) {
+    static _extractResultFromJson(json) {
         return new Promise((resolve, reject) => {
             if (json.success && json.result) {
                 return resolve(json['result']);
@@ -46,113 +21,99 @@ import {parseJSON, generateUUID, b64ToUtf8} from './utils.js';
         });
     };
 
-    // let extractResultFromJson2 = function (json, field) {
-    //     let res = null;
-    //     if (json.success && json.result && field === 'wholeObject'){
-    //         return json.result
-    //     }
-    //
-    //     if (json.success && json.result && json['result'][field] ){
-    //         res = json['result'][field];
-    //         if (field === 'payload') {
-    //             return that.b64_to_utf8(res);
-    //         }
-    //     } else {
-    //         if (field === 'picture') {
-    //             res = "";
-    //         }
-    //     }
-    //     return res;
-    // };
-
-    let getPromisedValueFromSdk = function (field, call, args) {
-        return parseJSON(window.BubbleAPI[call](args))
+    static _getPromisedValueFromSdk(field, call, args) {
+        return parseJSON(window.BubbleAPI[call](...args))
             .then((sdkResultJson) => {
-                if (field) {
-                    return extractResultFromJson(sdkResultJson);
-                } else {
-                    throw new Error("Promise Chain break");
-                }
+                return this._extractResultFromJson(sdkResultJson);
             })
             .then((resultObj)=> {
-                return resultObj[field];
-            })
-            .catch((error) => {
-                if (error.message === "Promise Chain break") {
-                    return Promise.resolve();
+                if (field) {
+                    return resultObj[field];
                 } else {
-                    throw new Error(error);
+                    return resultObj;
                 }
             });
-    };
+    }
 
-    class BubbleSdk {
-        constructor() {
-            // this.sodaMessage = null; // new SodaMessage("123")
-        }
+    static getMyLastSession(){
+        return this._getPromisedValueFromSdk('sessionId', 'getLastSession');
+    }
 
-        static getMyLastSession(){
-            return getPromisedValueFromSdk('sessionId', 'getLastSession');
-        }
+    static closeBubble(){
+        return parseJSON(window.BubbleAPI.closeBubble());
+    }
 
-        static closeBubble(){
-            return getPromisedValueFromSdk(null, 'closeBubble');
-        }
+    static getContext(){
+        return this._getPromisedValueFromSdk('context', 'getContext');
+    }
 
-        static getContext(){
-            return getPromisedValueFromSdk('context', 'getContext');
-        }
-
-        static getPayload(sessionId){
-            return getPromisedValueFromSdk('payload', 'getPayload', sessionId)
-                .then((base64Json) => {
-                    if (base64Json === null) {
-                        return Promise.resolve(null);
-                    } else {
-                        return b64ToUtf8(base64Json);
-                    }
-                })
-                .then((jsonAsString) => {
-                    return parseJSON(jsonAsString);
-                });
-        }
-
-        static createUniqueSessionIdIfOldNotFound(){
-            return this.getMyLastSession()
-                .catch(() => {
-                    return Promise.resolve(generateUUID());
+    static getPayload(sessionId){
+        return this._getPromisedValueFromSdk('payload', 'getPayload', [sessionId])
+            .then((base64Json) => {
+                if (base64Json === null) {
+                    return Promise.resolve(null);
+                } else {
+                    return b64ToUtf8(base64Json);
+                }
+            })
+            .then((jsonAsString) => {
+                return parseJSON(jsonAsString);
             });
-        };
-
-        static getMessageInstance(sessionId){
-            return new SodaMessage(sessionId);
-        };
     }
 
-    let SodaDeviceData = function() {
-
-        this.lastLocation = {};
-
-        // getLastKnownLocation
-        // copyToClipboard
-        // openInExternalBrowser
-        // getCurrentLocationAsync
+    static createUniqueSessionIdIfOldNotFound(){
+        return this.getMyLastSession()
+            .catch(() => {
+                return Promise.resolve(generateUUID());
+        });
     };
 
-    let SodaUserData = function() {
-
-        this.me = {};
-        this.contacts = [];
-
-        // getUserDetails
-        // getFriendsDetails
-        // getUserPicture
+    static getMessageInstance(sessionId){
+        return new SodaMessage(sessionId);
     };
 
+    static getLastKnownLocation(){
+        return this._getPromisedValueFromSdk(null, 'getLastKnownLocation');
+    };
 
-    if ( !noGlobal ) {
-        window.BubbleSdk = BubbleSdk;
-    }
+    static copyToClipboard(url){
+        return this._getPromisedValueFromSdk(null, 'copyToClipboard', [url]);
+    };
 
-    return BubbleSdk;
-});
+    static openInExternalBrowser(url){
+        return this._getPromisedValueFromSdk(null, 'openInExternalBrowser', [url]);
+    };
+
+    static getUserDetails(){
+        return this._getPromisedValueFromSdk(null, 'getUserDetails');
+    };
+
+    static getFriendsDetails(){
+        return this._getPromisedValueFromSdk(null, 'getFriendsDetails');
+    };
+
+    static getUserPicture(userId){
+        return this._getPromisedValueFromSdk('picture', 'getUserPicture', [userId]);
+    };
+
+    static getCurrentLocationAsync(cb){
+        window.BubbleAPI.getCurrentLocationAsync(cb);
+    };
+
+    static registerToPayloadEvent(cb){
+        window.setPayload = function(payload) {
+            try {
+                var jsonResult = JSON.parse(decodeURIComponent(window.atob(payload)));
+                cb(jsonResult, null);
+            } catch (e) {
+                cb(null, e);
+            }
+        };
+    };
+
+    static registerToBubbleClosedEvent(cb){
+        window.bubbleClosed = function() {
+            cb();
+        };
+    };
+};

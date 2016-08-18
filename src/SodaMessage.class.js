@@ -1,18 +1,6 @@
 "use strict";
 
-import {utf8ToB64, stringifyJSON, isInArray} from './utils.js';
-
-Promise.prototype['finally'] = function (f) {
-    return this.then(function (value) {
-        return Promise.resolve(f()).then(function () {
-            return value;
-        });
-    }, function (err) {
-        return Promise.resolve(f()).then(function () {
-            throw err;
-        });
-    });
-};
+import {stringifyJSON, isInArray} from './utils.js';
 
 export class SodaMessage {
     constructor(sessionId) {
@@ -66,21 +54,18 @@ SodaMessage.prototype.setPriority = function(priority) {
 };
 
 SodaMessage.prototype.setPayload = function(payload) {
-    return stringifyJSON(payload)
-        .then((jsonAsString) => {
-           return utf8ToB64(jsonAsString)
-        }).then((jsonAsBase64) => {
-            this.success = true;
-            this.payload = jsonAsBase64;
-            return this;
-    }).catch((error)=> {
+    try {
+        var jsonAsBase64 = window.btoa(encodeURIComponent(JSON.stringify(payload)));
+        this.success = true;
+        this.payload = jsonAsBase64;
+    } catch (error) {
         this.success = false;
         this.msg = error.message;
         this.payload = "";
+    } finally {
+        //noinspection ReturnInsideFinallyBlockJS
         return this;
-    }).finally((thisInstance) => {
-        return thisInstance;
-    });
+    }
 };
 
 SodaMessage.prototype.setActionType = function(actionType) {
