@@ -263,16 +263,10 @@
 	
 	    this.getLastSession = function(err) {
 	        if (typeof err === "number" && err >= 0) return errorMsgGenerator(err);
-	        var oldSession;
-	        if (sessionId === ""){
-	            oldSession = storage.getItem('SODA_LAST_SESSION');
-	            if (oldSession){
-	                return msgGenerator({sessionId : oldSession});
-	            }
-	            return errorMsgGenerator(5);
-	        } else {
-	            return msgGenerator({sessionId : sessionId});
-	        }
+	
+	        sessionId = sessionId ? sessionId : storage.getItem('SODA_LAST_SESSION');
+	        if (!sessionId) return errorMsgGenerator(5);
+	        return msgGenerator({sessionId : sessionId});
 	    };
 	
 	    this.getUserDetails = function(err) {
@@ -391,6 +385,7 @@
 	        that.mockContextAndMembers(mockItem);
 	        var paramSessionId = getURLParameter('sessionId');
 	        if (paramSessionId){
+	            sessionId = paramSessionId;
 	            var a = decryptMsg(storage.getItem("SODA_ITEM"));
 	            if (a && a.hasOwnProperty(paramSessionId) && a[paramSessionId].hasOwnProperty(currentUser)) {
 	                payloads[paramSessionId] = a[paramSessionId][currentUser];
