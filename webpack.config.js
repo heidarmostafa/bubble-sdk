@@ -4,7 +4,7 @@ let path = require('path');
 let webpack = require('webpack');
 
 let entries = [
-    './src/bubble_sdk.js'
+    './src/BubblesSDK.class.js'
 ];
 let pluginParams = {};
 let outputBaseFile = 'BubblesSDK';
@@ -39,7 +39,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: require.resolve('./src/bubble_sdk.js'),
+                test: require.resolve('./src/BubblesSDK.class.js'),
                 loader: 'expose?BubbleSdk'
             },
             {
