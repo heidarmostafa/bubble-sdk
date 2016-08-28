@@ -4,7 +4,7 @@ import {SodaMessage} from './SodaMessage.class';
 import {parseJSON, generateUUID, b64ToUtf8} from './utils.js';
 
 //noinspection JSUnusedLocalSymbols
-module.exports = class BubbleSdk {
+module.exports = class BubbleSDK {
     constructor() {}
 
     static _extractResultFromJson(json) {

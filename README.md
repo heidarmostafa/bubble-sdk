@@ -10,9 +10,9 @@ If you want to compile the entire thing for development:
 **Usage examples:**  
 *Get last payload.*
 ~~~~
-BubbleSdk.getLastSession()
+BubbleSDK.getLastSession()
   .then(function(sessionId) {
-      return BubbleSdk.getPayload(sessionId);
+      return BubbleSDK.getPayload(sessionId);
   }).then(function(payloadObj) {
       ... Do something with the payload
   }).catch(function(error) {
@@ -23,7 +23,7 @@ BubbleSdk.getLastSession()
 
 *Create a new message and send it.*
 ~~~~
-let a = BubbleSdk.getMessageInstance('abcd-1234');
+let a = BubbleSDK.getMessageInstance('abcd-1234');
 a.setPriority(1).setPayload({a:1, b:'hello'});
 a.sendRemoteMessage()
   .then(function() {

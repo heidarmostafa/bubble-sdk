@@ -456,7 +456,7 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["BubbleSdk"] = __webpack_require__(3);
+	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["BubbleSDK"] = __webpack_require__(3);
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
@@ -477,11 +477,11 @@
 	
 	//noinspection JSUnusedLocalSymbols
 	module.exports = function () {
-	    function BubbleSdk() {
-	        _classCallCheck(this, BubbleSdk);
+	    function BubbleSDK() {
+	        _classCallCheck(this, BubbleSDK);
 	    }
 	
-	    _createClass(BubbleSdk, null, [{
+	    _createClass(BubbleSDK, null, [{
 	        key: '_extractResultFromJson',
 	        value: function _extractResultFromJson(json) {
 	            return new Promise(function (resolve, reject) {
@@ -608,7 +608,7 @@
 	        }
 	    }]);
 	
-	    return BubbleSdk;
+	    return BubbleSDK;
 	}();
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
