@@ -2,10 +2,10 @@
 This is a Promise based interface to the SDK's BubbleAPI
 
 To use with any bubble just use the minified bubelified version in:
-public/assets/bubble_sdk_bundle.min.js
+public/assets/BubbleSDK.min.js
 
 If you want to compile the entire thing for development:
-npm run dev-build
+`npm run dev-build` or `npm run win-build` on Windows
 
 **Usage examples:**  
 *Get last payload.*
