@@ -520,7 +520,8 @@
 	    }, {
 	        key: 'closeBubble',
 	        value: function closeBubble() {
-	            return (0, _utils.parseJSON)(__webpack_provided_window_dot_BubbleAPI.closeBubble());
+	            __webpack_provided_window_dot_BubbleAPI.closeBubble();
+	            return Promise.resolve('');
 	        }
 	    }, {
 	        key: 'getContext',

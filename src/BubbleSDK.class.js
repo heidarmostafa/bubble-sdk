@@ -40,7 +40,8 @@ module.exports = class BubbleSDK {
     }
 
     static closeBubble(){
-        return parseJSON(window.BubbleAPI.closeBubble());
+        window.BubbleAPI.closeBubble();
+        return Promise.resolve('');
     }
 
     static getContext(){
