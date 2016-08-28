@@ -1,3 +1,5 @@
+'use strict';
+
 let path = require('path');
 let webpack = require('webpack');
 
@@ -5,7 +7,7 @@ let entries = [
     './src/bubble_sdk.js'
 ];
 let pluginParams = {};
-let outputBaseFile = 'bubble_sdk_bundle';
+let outputBaseFile = 'BubblesSDK';
 let outputFilename = outputBaseFile;
 let sourceMaps = '';
 let isDebug = false;
@@ -13,12 +15,12 @@ let isDebug = false;
 if((typeof process.env.NODE_ENV === 'undefined') || (process.env.NODE_ENV === 'development')) {
     console.log('Compiling for development');
     entries.unshift('soda-sandbox');
-    pluginParams["window.BubbleAPI"] = "soda-sandbox";
+    pluginParams['window.BubbleAPI'] = 'soda-sandbox';
     sourceMaps = 'source-map';
     isDebug = true;
 } else {
     console.log('Compiling for production');
-    outputFilename += ".min";
+    outputFilename += '.min';
 }
 
 //noinspection SpellCheckingInspection,JSUnresolvedFunction

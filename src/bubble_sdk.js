@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-import {SodaMessage} from "./SodaMessage.class";
+import {SodaMessage} from './SodaMessage.class';
 import {parseJSON, generateUUID, b64ToUtf8} from './utils.js';
 
 //noinspection JSUnusedLocalSymbols

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 export function utf8ToB64(str) {
     return new Promise((resolve, reject)=> {
