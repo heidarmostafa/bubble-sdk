@@ -6,7 +6,6 @@ import {parseJSON, generateUUID, b64ToUtf8} from './utils.js';
 
 //noinspection JSUnusedLocalSymbols
 module.exports = class BubbleSDK {
-    constructor() {}
 
     static _extractResultFromJson(json) {
         return new Promise((resolve, reject) => {
@@ -16,7 +15,7 @@ module.exports = class BubbleSDK {
                 if (json['result'] && json['result']['errorId']) {
                     return reject(json['result']['errorId']);
                 } else {
-                    return reject("No result from BubbleApi");
+                    return reject('No result from BubbleApi');
                 }
             }
         });
@@ -27,7 +26,7 @@ module.exports = class BubbleSDK {
             .then((sdkResultJson) => {
                 return this._extractResultFromJson(sdkResultJson);
             })
-            .then((resultObj)=> {
+            .then((resultObj) => {
                 if (field) {
                     return resultObj[field];
                 } else {
@@ -36,20 +35,20 @@ module.exports = class BubbleSDK {
             });
     }
 
-    static getMyLastSession(){
+    static getMyLastSession() {
         return this._getPromisedValueFromSdk('sessionId', 'getLastSession');
     }
 
-    static closeBubble(){
+    static closeBubble() {
         window.BubbleAPI.closeBubble();
         return Promise.resolve('');
     }
 
-    static getContext(){
+    static getContext() {
         return this._getPromisedValueFromSdk('context', 'getContext');
     }
 
-    static getPayload(sessionId){
+    static getPayload(sessionId) {
         return this._getPromisedValueFromSdk('payload', 'getPayload', [sessionId])
             .then((base64Json) => {
                 if (base64Json === null) {
@@ -63,42 +62,42 @@ module.exports = class BubbleSDK {
             });
     }
 
-    static createUniqueSessionIdIfOldNotFound(){
+    static createUniqueSessionIdIfOldNotFound() {
         return this.getMyLastSession()
             .catch(() => {
                 return Promise.resolve(generateUUID());
         });
     };
 
-    static getLastKnownLocation(){
+    static getLastKnownLocation() {
         return this._getPromisedValueFromSdk(null, 'getLastKnownLocation');
     };
 
-    static copyToClipboard(url){
+    static copyToClipboard(url) {
         return this._getPromisedValueFromSdk(null, 'copyToClipboard', [url]);
     };
 
-    static openInExternalBrowser(url){
+    static openInExternalBrowser(url) {
         return this._getPromisedValueFromSdk(null, 'openInExternalBrowser', [url]);
     };
 
-    static getUserDetails(){
+    static getUserDetails() {
         return this._getPromisedValueFromSdk(null, 'getUserDetails');
     };
 
-    static getFriendsDetails(){
+    static getFriendsDetails() {
         return this._getPromisedValueFromSdk(null, 'getFriendsDetails');
     };
 
-    static getUserPicture(userId){
+    static getUserPicture(userId) {
         return this._getPromisedValueFromSdk('picture', 'getUserPicture', [userId]);
     };
 
-    static getCurrentLocationAsync(cb){
+    static getCurrentLocationAsync(cb) {
         window.BubbleAPI.getCurrentLocationAsync(cb);
     };
 
-    static registerToPayloadEvent(cb){
+    static registerToPayloadEvent(cb) {
         window.setPayload = function(payload) {
             try {
                 var jsonResult = JSON.parse(decodeURIComponent(window.atob(payload)));
@@ -109,18 +108,18 @@ module.exports = class BubbleSDK {
         };
     };
 
-    static registerToBubbleClosedEvent(cb){
+    static registerToBubbleClosedEvent(cb) {
         window.bubbleClosed = function() {
             cb();
         };
     };
 
     //Services
-    static getMessageInstance(sessionId){
+    static getMessageInstance(sessionId) {
         return new SodaMessage(sessionId);
     };
 
-    static getLeaderboardInstance(bubbleId, productId, order){
+    static getLeaderboardInstance(bubbleId, productId, order) {
         return new LeaderBoard(bubbleId, productId, order);
     };
 

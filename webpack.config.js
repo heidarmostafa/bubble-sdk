@@ -37,6 +37,13 @@ module.exports = {
         new webpack.ProvidePlugin(pluginParams)
     ],
     module: {
+        preLoaders: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'eslint-loader'
+            }
+        ],
         loaders: [
             {
                 test: require.resolve('./src/BubbleSDK.class.js'),

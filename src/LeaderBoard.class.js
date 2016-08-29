@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-import {stringifyJSON, isInArray} from './utils.js';
 let reqwest = require('reqwest');
 
 export class LeaderBoard {
     constructor(bubbleId, productId, order) {
         this.bubbleId = bubbleId;
         this.productId = productId;
-        if(typeof order !== 'undefined' && order === 'desc') {
+        if (typeof order !== 'undefined' && order === 'desc') {
             this.ascending = false;
         } else {
             this.ascending = true;
@@ -32,7 +31,7 @@ LeaderBoard.prototype.getBoard = function(contextId) {
             error: function(err) {
                 reject(err);
             }
-        })
+        });
     });
 
 };
@@ -54,7 +53,7 @@ LeaderBoard.prototype.getUserBestScore = function(userId) {
             error: function(err) {
                 reject(err);
             }
-        })
+        });
     });
 
 };
@@ -79,7 +78,7 @@ LeaderBoard.prototype.submitScore = function(userId, userName, score) {
             error: function(err) {
                 reject(err);
             }
-        })
+        });
     });
 
 };

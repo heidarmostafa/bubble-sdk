@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import {stringifyJSON, isInArray} from './utils.js';
 
@@ -9,7 +9,7 @@ export class SodaMessage {
         this.priority = 2;
 
         // Non mandatory fields:
-        this.payload = "";
+        this.payload = '';
         this.updateMsg = false;
         this.actionType = null;
         this.title = null;
@@ -21,7 +21,7 @@ export class SodaMessage {
 
         // local vars for relaying problematic handling.
         this.success = true;
-        this.msg = "";
+        this.msg = '';
     }
 
     toObject() {
@@ -37,7 +37,7 @@ export class SodaMessage {
 
     toString() {
         return stringifyJSON(this.toObject())
-            .then((str)=>{
+            .then((str) => {
                 return str;
         });
     }
@@ -61,20 +61,21 @@ SodaMessage.prototype.setPayload = function(payload) {
     } catch (error) {
         this.success = false;
         this.msg = error.message;
-        this.payload = "";
+        this.payload = '';
     } finally {
         //noinspection ReturnInsideFinallyBlockJS
+        /* eslint-disable no-unsafe-finally */
         return this;
     }
 };
 
 SodaMessage.prototype.setActionType = function(actionType) {
-    const ACTION_TYPES = ["OPEN", "PLAY", "INSTALL", "ACCEPT", "DOWNLOAD", "PAY NOW", "SHOP NOW", "SIGN UP", "BOOK NOW", "VOTE"];
+    const ACTION_TYPES = ['OPEN', 'PLAY', 'INSTALL', 'ACCEPT', 'DOWNLOAD', 'PAY NOW', 'SHOP NOW', 'SIGN UP', 'BOOK NOW', 'VOTE'];
 
     if (actionType === null || isInArray(actionType, ACTION_TYPES)) {
         this.actionType = actionType;
     } else {
-        this.msg = "No such action type";
+        this.msg = 'No such action type';
         this.success = false;
     }
 
@@ -117,20 +118,20 @@ SodaMessage.prototype.setUpdateMsg = function(updateMsg) {
 };
 
 SodaMessage.prototype.sendLocalMessage = function() {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
         if (!this.success) return reject(new Error(this.msg));
         stringifyJSON(this.toObject())
-            .then((metadata)=>{
+            .then((metadata) => {
                 window.BubbleAPI.sendLocalMessage(metadata);
         });
     });
 };
 
 SodaMessage.prototype.sendRemoteMessage = function() {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
         if (!this.success) return reject(new Error(this.msg));
         stringifyJSON(this.toObject())
-            .then((metadata)=>{
+            .then((metadata) => {
                 window.BubbleAPI.sendMessage(metadata);
             });
     });

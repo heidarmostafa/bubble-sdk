@@ -493,7 +493,7 @@
 	                    if (json['result'] && json['result']['errorId']) {
 	                        return reject(json['result']['errorId']);
 	                    } else {
-	                        return reject("No result from BubbleApi");
+	                        return reject('No result from BubbleApi');
 	                    }
 	                }
 	            });
@@ -627,7 +627,7 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_BubbleAPI) {"use strict";
+	/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_BubbleAPI) {'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -649,7 +649,7 @@
 	        this.priority = 2;
 	
 	        // Non mandatory fields:
-	        this.payload = "";
+	        this.payload = '';
 	        this.updateMsg = false;
 	        this.actionType = null;
 	        this.title = null;
@@ -661,11 +661,11 @@
 	
 	        // local vars for relaying problematic handling.
 	        this.success = true;
-	        this.msg = "";
+	        this.msg = '';
 	    }
 	
 	    _createClass(SodaMessage, [{
-	        key: "toObject",
+	        key: 'toObject',
 	        value: function toObject() {
 	            var res = {};
 	            for (var prop in this) {
@@ -677,7 +677,7 @@
 	            return res;
 	        }
 	    }, {
-	        key: "toString",
+	        key: 'toString',
 	        value: function toString() {
 	            return (0, _utils.stringifyJSON)(this.toObject()).then(function (str) {
 	                return str;
@@ -706,20 +706,21 @@
 	    } catch (error) {
 	        this.success = false;
 	        this.msg = error.message;
-	        this.payload = "";
+	        this.payload = '';
 	    } finally {
 	        //noinspection ReturnInsideFinallyBlockJS
+	        /* eslint-disable no-unsafe-finally */
 	        return this;
 	    }
 	};
 	
 	SodaMessage.prototype.setActionType = function (actionType) {
-	    var ACTION_TYPES = ["OPEN", "PLAY", "INSTALL", "ACCEPT", "DOWNLOAD", "PAY NOW", "SHOP NOW", "SIGN UP", "BOOK NOW", "VOTE"];
+	    var ACTION_TYPES = ['OPEN', 'PLAY', 'INSTALL', 'ACCEPT', 'DOWNLOAD', 'PAY NOW', 'SHOP NOW', 'SIGN UP', 'BOOK NOW', 'VOTE'];
 	
 	    if (actionType === null || (0, _utils.isInArray)(actionType, ACTION_TYPES)) {
 	        this.actionType = actionType;
 	    } else {
-	        this.msg = "No such action type";
+	        this.msg = 'No such action type';
 	        this.success = false;
 	    }
 	
@@ -843,7 +844,7 @@
 	    var uuid = void 0;
 	    var d = new Date().getTime();
 	    //noinspection JSUnresolvedVariable
-	    if (window.performance && typeof window.performance.now === "function") {
+	    if (window.performance && typeof window.performance.now === 'function') {
 	        //noinspection JSUnresolvedVariable
 	        d += window.performance.now(); //use high-precision timer if available
 	    }
@@ -851,7 +852,7 @@
 	    uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 	        var r = (d + Math.random() * 16) % 16 | 0;
 	        d = Math.floor(d / 16);
-	        return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
+	        return (c === 'x' ? r : r & 0x3 | 0x8).toString(16);
 	    });
 	    return uuid;
 	}
@@ -864,14 +865,11 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.LeaderBoard = undefined;
-	
-	var _utils = __webpack_require__(5);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
