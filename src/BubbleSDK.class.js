@@ -1,6 +1,7 @@
 'use strict';
 
 import {SodaMessage} from './SodaMessage.class';
+import {LeaderBoard} from './LeaderBoard.class';
 import {parseJSON, generateUUID, b64ToUtf8} from './utils.js';
 
 //noinspection JSUnusedLocalSymbols
@@ -69,10 +70,6 @@ module.exports = class BubbleSDK {
         });
     };
 
-    static getMessageInstance(sessionId){
-        return new SodaMessage(sessionId);
-    };
-
     static getLastKnownLocation(){
         return this._getPromisedValueFromSdk(null, 'getLastKnownLocation');
     };
@@ -117,4 +114,14 @@ module.exports = class BubbleSDK {
             cb();
         };
     };
+
+    //Services
+    static getMessageInstance(sessionId){
+        return new SodaMessage(sessionId);
+    };
+
+    static getLeaderboardInstance(bubbleId, productId, order){
+        return new LeaderBoard(bubbleId, productId, order);
+    };
+
 };
