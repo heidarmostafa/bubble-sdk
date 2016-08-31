@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <title>test</title>
     <script src="public/assets/BubblesSDK.js"></script>
+
+    <script>
+
+        function getBoardExample() {
+            var lb = BubbleSDK.getLeaderboardInstance("12" +
+                    "3", "222");
+            lb.getBoard("c1").then((res) => {
+                console.log(res);
+            });
+        }
+
+    </script>
+
 </head>
 <body>
     <button onclick="BubbleSDK.closeBubble()" style="height: 200px; width: 100%; font-size: 36px;">
         Try me - You won't regret it
+    </button>
+    <button onclick="getBoardExample()" style="height: 200px; width: 100%; font-size: 36px;">
+        Get leaderboard
     </button>
 </body>
 </html>
