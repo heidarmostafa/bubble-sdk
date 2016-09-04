@@ -35,19 +35,41 @@ module.exports = class BubbleSDK {
             });
     }
 
+    /**
+     * Get the last received sessionId.
+     * You can use this id to restore the last payload in case the bubble was lunched without a sessionId
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getlastsession}
+     * @returns {Promise.<string>}
+     * */
     static getMyLastSession() {
         return this._getPromisedValueFromSdk('sessionId', 'getLastSession');
     }
 
+    /**
+     * Close bubble
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#bubble-to-sdk}
+     * @returns {Promise.<string>}
+     */
     static closeBubble() {
         window.BubbleAPI.closeBubble();
         return Promise.resolve('');
     }
 
+    /**
+     * Get the context of the hosting container (conversation, page, etc.).
+     * You can use this context if you save external state for your bubble per context.
+     * @returns {Promise.<string>}
+     */
     static getContext() {
         return this._getPromisedValueFromSdk('context', 'getContext');
     }
 
+    /**
+     * Get the last payload of a given session
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getpayload}
+     * @param sessionId
+     * @returns {Promise.<json>}
+     */
     static getPayload(sessionId) {
         return this._getPromisedValueFromSdk('payload', 'getPayload', [sessionId])
             .then((base64Json) => {
@@ -62,6 +84,10 @@ module.exports = class BubbleSDK {
             });
     }
 
+    /**
+     * Generate a random session id
+     * @returns {Promise.<string>}
+     */
     static createUniqueSessionIdIfOldNotFound() {
         return this.getMyLastSession()
             .catch(() => {
@@ -69,34 +95,79 @@ module.exports = class BubbleSDK {
         });
     };
 
+    /**
+     * Get last known location of the current user (doesn't query the GPS directly)
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getlastknownlocation}
+     * @returns {Promise.<json>}
+     */
     static getLastKnownLocation() {
         return this._getPromisedValueFromSdk(null, 'getLastKnownLocation');
     };
 
+    /**
+     * Adds any give text to the device's clipboard, ready for pasting anywhere and outside the app
+     * @param text
+     * @returns {Promise.<json>}
+     */
     static copyToClipboard(url) {
         return this._getPromisedValueFromSdk(null, 'copyToClipboard', [url]);
     };
 
+    /**
+     * Open a given URL in the device's default web browser
+     * @param URL
+     * @returns {Promise.<string>}
+     */
     static openInExternalBrowser(url) {
         return this._getPromisedValueFromSdk(null, 'openInExternalBrowser', [url]);
     };
 
+    /**
+     * Get details of the current user
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getuserdetails}
+     * @returns {Promise.<json>}
+     */
     static getUserDetails() {
         return this._getPromisedValueFromSdk(null, 'getUserDetails');
     };
 
+    /**
+     * Details of all friends active on the current chat. Requires extra permission.
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getfriendsdetails}
+     * @returns {Promise.<json>}
+     */
     static getFriendsDetails() {
         return this._getPromisedValueFromSdk(null, 'getFriendsDetails');
     };
 
+    /**
+     * Get user profile picture
+     * Might be returned using the following sources:
+     * 1. base64 encoded image
+     * 2. image URL
+     * 3. path to a local picture
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getuserpicture}
+     * @param userId
+     * @returns {Promise.<json>}
+     */
     static getUserPicture(userId) {
         return this._getPromisedValueFromSdk('picture', 'getUserPicture', [userId]);
     };
 
+    /**
+     * Get active location of the current user (query the GPS directly)
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getcurrentlocationasync}
+     * @param callback function
+     */
     static getCurrentLocationAsync(cb) {
         window.BubbleAPI.getCurrentLocationAsync(cb);
     };
 
+    /**
+     * The SDK calls the provided callback function method whenever a new payload is available for the bubble (for example, when a new message arrives)
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble}
+     * @param callback function
+     */
     static registerToPayloadEvent(cb) {
         window.setPayload = function(payload) {
             try {
@@ -108,6 +179,11 @@ module.exports = class BubbleSDK {
         };
     };
 
+    /**
+     * The SDK will call the provided callback function when a bubble is being terminated by the container application
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble}
+     * @param callback function
+     */
     static registerToBubbleClosedEvent(cb) {
         window.bubbleClosed = function() {
             cb();
