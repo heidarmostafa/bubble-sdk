@@ -485,6 +485,9 @@
 	
 	    _createClass(BubbleSDK, null, [{
 	        key: '_extractResultFromJson',
+	
+	
+	        //Private functions
 	        value: function _extractResultFromJson(json) {
 	            return new Promise(function (resolve, reject) {
 	                if (json.success && json.result) {
@@ -514,22 +517,52 @@
 	                }
 	            });
 	        }
+	
+	        /**
+	         * Get the last received sessionId.
+	         * You can use this id to restore the last payload in case the bubble was lunched without a sessionId
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getlastsession}
+	         * @returns {Promise.<string>}
+	         * */
+	
 	    }, {
 	        key: 'getMyLastSession',
 	        value: function getMyLastSession() {
 	            return this._getPromisedValueFromSdk('sessionId', 'getLastSession');
 	        }
+	
+	        /**
+	         * Close bubble
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#bubble-to-sdk}
+	         * @returns {Promise.<string>}
+	         */
+	
 	    }, {
 	        key: 'closeBubble',
 	        value: function closeBubble() {
 	            __webpack_provided_window_dot_BubbleAPI.closeBubble();
 	            return Promise.resolve('');
 	        }
+	
+	        /**
+	         * Get the context of the hosting container (conversation, page, etc.).
+	         * You can use this context if you save external state for your bubble per context.
+	         * @returns {Promise.<string>}
+	         */
+	
 	    }, {
 	        key: 'getContext',
 	        value: function getContext() {
 	            return this._getPromisedValueFromSdk('context', 'getContext');
 	        }
+	
+	        /**
+	         * Get the last payload of a given session
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getpayload}
+	         * @param sessionId
+	         * @returns {Promise.<json>}
+	         */
+	
 	    }, {
 	        key: 'getPayload',
 	        value: function getPayload(sessionId) {
@@ -543,6 +576,12 @@
 	                return (0, _utils.parseJSON)(jsonAsString);
 	            });
 	        }
+	
+	        /**
+	         * Generate a random session id
+	         * @returns {Promise.<string>}
+	         */
+	
 	    }, {
 	        key: 'createUniqueSessionIdIfOldNotFound',
 	        value: function createUniqueSessionIdIfOldNotFound() {
@@ -552,41 +591,113 @@
 	        }
 	    }, {
 	        key: 'getLastKnownLocation',
+	
+	
+	        /**
+	         * Get last known location of the current user (doesn't query the GPS directly)
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getlastknownlocation}
+	         * @returns {Promise.<json>}
+	         */
 	        value: function getLastKnownLocation() {
 	            return this._getPromisedValueFromSdk(null, 'getLastKnownLocation');
 	        }
 	    }, {
+	        key: 'getProductId',
+	
+	
+	        /**
+	         * Returns the current bubble's product ID
+	         * @returns {Promise.<json>}
+	         */
+	        value: function getProductId() {
+	            return this._getPromisedValueFromSdk(null, 'getProductId');
+	        }
+	    }, {
 	        key: 'copyToClipboard',
-	        value: function copyToClipboard(url) {
-	            return this._getPromisedValueFromSdk(null, 'copyToClipboard', [url]);
+	
+	
+	        /**
+	         * Adds any give text to the device's clipboard, ready for pasting anywhere and outside the app
+	         * @param {string} text - The string we want to send to the clipboard
+	         * @returns {Promise.<json>}
+	         */
+	        value: function copyToClipboard(text) {
+	            return this._getPromisedValueFromSdk(null, 'copyToClipboard', [text]);
 	        }
 	    }, {
 	        key: 'openInExternalBrowser',
+	
+	
+	        /**
+	         * Open a given URL in the device's default web browser
+	         * @param {string} URL - The URL to be opened
+	         * @returns {Promise.<string>}
+	         */
 	        value: function openInExternalBrowser(url) {
 	            return this._getPromisedValueFromSdk(null, 'openInExternalBrowser', [url]);
 	        }
 	    }, {
 	        key: 'getUserDetails',
+	
+	
+	        /**
+	         * Get details of the current user
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getuserdetails}
+	         * @returns {Promise.<json>}
+	         */
 	        value: function getUserDetails() {
 	            return this._getPromisedValueFromSdk(null, 'getUserDetails');
 	        }
 	    }, {
 	        key: 'getFriendsDetails',
+	
+	
+	        /**
+	         * Details of all friends active on the current chat. Requires extra permission.
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getfriendsdetails}
+	         * @returns {Promise.<json>}
+	         */
 	        value: function getFriendsDetails() {
 	            return this._getPromisedValueFromSdk(null, 'getFriendsDetails');
 	        }
 	    }, {
 	        key: 'getUserPicture',
+	
+	
+	        /**
+	         * Get user profile picture
+	         * Might be returned using the following sources:
+	         * 1. base64 encoded image
+	         * 2. image URL
+	         * 3. path to a local picture
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getuserpicture}
+	         * @param userId
+	         * @returns {Promise.<json>}
+	         */
 	        value: function getUserPicture(userId) {
 	            return this._getPromisedValueFromSdk('picture', 'getUserPicture', [userId]);
 	        }
 	    }, {
 	        key: 'getCurrentLocationAsync',
+	
+	
+	        /**
+	         * Get active location of the current user (query the GPS directly)
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getcurrentlocationasync}
+	         * @param {function} callback - The callback function
+	         */
 	        value: function getCurrentLocationAsync(cb) {
 	            __webpack_provided_window_dot_BubbleAPI.getCurrentLocationAsync(cb);
 	        }
 	    }, {
 	        key: 'registerToPayloadEvent',
+	
+	
+	        /**
+	         * The SDK calls the provided callback function method whenever a new payload is available for the bubble (for example, when a new message arrives)
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble}
+	         * @param {function} callback -  The function that will called on payload event
+	         */
 	        value: function registerToPayloadEvent(cb) {
 	            window.setPayload = function (payload) {
 	                try {
@@ -599,6 +710,13 @@
 	        }
 	    }, {
 	        key: 'registerToBubbleClosedEvent',
+	
+	
+	        /**
+	         * The SDK will call the provided callback function when a bubble is being terminated by the container application
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble}
+	         * @param {function} callback - The callback function
+	         */
 	        value: function registerToBubbleClosedEvent(cb) {
 	            window.bubbleClosed = function () {
 	                cb();
@@ -609,13 +727,29 @@
 	
 	
 	        //Services
+	
+	        /**
+	         * Returns a new instance of the SodaMessage class
+	         * @param {string} sessionId
+	         * @returns {SodaMessage}
+	         */
 	        value: function getMessageInstance(sessionId) {
 	            return new _SodaMessage.SodaMessage(sessionId);
 	        }
 	    }, {
 	        key: 'getLeaderboardInstance',
-	        value: function getLeaderboardInstance(bubbleId, productId, order) {
-	            return new _LeaderBoard.LeaderBoard(bubbleId, productId, order);
+	
+	
+	        /**
+	         * Returns a new instance of LeaderBoard class
+	         * @param {string} bubbleId
+	         * @param {string} productId - Decided an supplied by StartApp
+	         * @param {string} contextId - The context id
+	         * @param {enum} order - asc/desc string. Dictates what accounts for a better score - lower or higher numbers
+	         * @returns {LeaderBoard}
+	         */
+	        value: function getLeaderboardInstance(bubbleId, productId, contextId, order) {
+	            return new _LeaderBoard.LeaderBoard(bubbleId, productId, contextId, order);
 	        }
 	    }]);
 	
@@ -641,6 +775,13 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var SodaMessage = exports.SodaMessage = function () {
+	
+	    /**
+	     * Creates an instance of SodaMessage
+	     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#the-msg-json-object}
+	     * @constructor
+	     * @param {string} sessionId
+	     */
 	    function SodaMessage(sessionId) {
 	        _classCallCheck(this, SodaMessage);
 	
@@ -688,16 +829,37 @@
 	    return SodaMessage;
 	}();
 	
+	/**
+	 * The session Id of your message
+	 * @param {string} sessionId
+	 * @returns {SodaMessage}
+	 */
+	
+	
 	SodaMessage.prototype.setSessionId = function (sessionId) {
 	    this.sessionId = sessionId;
 	    return this;
 	};
 	
+	/**
+	 * Priority is the "level of urgency" of this notification, by which it will be treated by the container application. Possible values:
+	 * 0. Silent - use this option to send in-bubble messages that won't be displayed on the container app
+	 * 1. Low
+	 * 2. Medium
+	 * 3. High
+	 * @param {string} priority
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setPriority = function (priority) {
 	    this.priority = priority;
 	    return this;
 	};
 	
+	/**
+	 * The message content
+	 * @param {string} payload
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setPayload = function (payload) {
 	    try {
 	        var jsonAsBase64 = window.btoa(encodeURIComponent(JSON.stringify(payload)));
@@ -714,6 +876,11 @@
 	    }
 	};
 	
+	/**
+	 * The action performed by clicking this message.
+	 * @param {enum} actionType - Options are OPEN, PLAY, INSTALL, ACCEPT, DOWNLOAD, PAY NOW, SHOP NOW, SIGN UP, BOOK NOW, VOTE
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setActionType = function (actionType) {
 	    var ACTION_TYPES = ['OPEN', 'PLAY', 'INSTALL', 'ACCEPT', 'DOWNLOAD', 'PAY NOW', 'SHOP NOW', 'SIGN UP', 'BOOK NOW', 'VOTE'];
 	
@@ -727,41 +894,80 @@
 	    return this;
 	};
 	
+	/**
+	 * The notification title
+	 * @param {string} title
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setTitle = function (title) {
 	    this.title = title;
 	    return this;
 	};
 	
+	/**
+	 * The notification sub-title
+	 * @param {string} subTitle
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setSubTitle = function (subTitle) {
 	    this.subTitle = subTitle;
 	    return this;
 	};
 	
+	/**
+	 * The notification text
+	 * @param {string} text
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setText = function (text) {
 	    this.text = text;
 	    return this;
 	};
 	
+	/**
+	 * The URL for a notification preview icon (square)
+	 * @param {string} iconUrl
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setIconUrl = function (iconUrl) {
 	    this.iconUrl = iconUrl;
 	    return this;
 	};
 	
+	/**
+	 * The URL for a notification preview banner
+	 * @param {string} bannerUrl
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setBannerUrl = function (bannerUrl) {
 	    this.bannerUrl = bannerUrl;
 	    return this;
 	};
 	
+	/**
+	 * The "base URL" of the Bubble. This URL will be used by the SDK to open the Bubble on the other side. Leave this parameter blank to use the bubble's default URL.
+	 * @param {string} bubbleAppUrl
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setBubbleAppUrl = function (bubbleAppUrl) {
 	    this.bubbleAppUrl = bubbleAppUrl;
 	    return this;
 	};
 	
+	/**
+	 * Use this parameter to ask the container application to override the last native massage with new data.
+	 * @param {string} updateMsg
+	 * @returns {SodaMessage}
+	 */
 	SodaMessage.prototype.setUpdateMsg = function (updateMsg) {
 	    this.updateMsg = updateMsg;
 	    return this;
 	};
 	
+	/**
+	 * After the message values are set - execute this function to actually send it locally
+	 * @returns {Promise}
+	 */
 	SodaMessage.prototype.sendLocalMessage = function () {
 	    var _this = this;
 	
@@ -773,6 +979,10 @@
 	    });
 	};
 	
+	/**
+	 *  After the message values are set - execute this function to actually send it locally
+	 * @returns {Promise}
+	 */
 	SodaMessage.prototype.sendRemoteMessage = function () {
 	    var _this2 = this;
 	
@@ -875,19 +1085,34 @@
 	
 	var reqwest = __webpack_require__(7);
 	
-	var LeaderBoard = exports.LeaderBoard = function LeaderBoard(bubbleId, productId, order) {
+	var LeaderBoard =
+	
+	/**
+	 * Constructor of Leaderboard
+	 * @constructor
+	 * @param {string} bubbleId
+	 * @param {string} productId - Decided an supplied by StartApp
+	 * @param {string} contextId - The context id
+	 * @param {enum} order - asc/desc string. Dictates what accounts for a better score - lower or higher numbers
+	 */
+	exports.LeaderBoard = function LeaderBoard(bubbleId, productId, contextId) {
+	    var order = arguments.length <= 3 || arguments[3] === undefined ? 'desc' : arguments[3];
+	
 	    _classCallCheck(this, LeaderBoard);
 	
 	    this.bubbleId = bubbleId;
 	    this.productId = productId;
-	    if (typeof order !== 'undefined' && order === 'desc') {
-	        this.ascending = false;
-	    } else {
-	        this.ascending = true;
-	    }
+	    this.contextId = contextId;
+	    this.ascending = order === 'asc';
 	};
 	
-	LeaderBoard.prototype.getBoard = function (contextId) {
+	/**
+	 * Return the board of a specific context
+	 * @returns {Promise}
+	 */
+	
+	
+	LeaderBoard.prototype.getBoard = function () {
 	    var _this = this;
 	
 	    return new Promise(function (resolve, reject) {
@@ -897,7 +1122,7 @@
 	            data: {
 	                bubbleid: _this.bubbleId,
 	                productid: _this.productId,
-	                contextid: contextId
+	                contextid: _this.contextId
 	            },
 	            success: function success(resp) {
 	                resolve(resp);
@@ -909,6 +1134,11 @@
 	    });
 	};
 	
+	/**
+	 * Get user's best score for current bubble
+	 * @param {string} userId
+	 * @returns {Promise}
+	 */
 	LeaderBoard.prototype.getUserBestScore = function (userId) {
 	    var _this2 = this;
 	
@@ -919,7 +1149,7 @@
 	            data: {
 	                bubbleid: _this2.bubbleId,
 	                productid: _this2.productId,
-	                contextid: userId
+	                userid: userId
 	            },
 	            success: function success(resp) {
 	                resolve(resp);
@@ -931,6 +1161,13 @@
 	    });
 	};
 	
+	/**
+	 * Submit new score
+	 * @param {string} userId
+	 * @param {string} userName
+	 * @param {int} score
+	 * @returns {Promise}
+	 */
 	LeaderBoard.prototype.submitScore = function (userId, userName, score) {
 	    var _this3 = this;
 	
@@ -941,6 +1178,7 @@
 	            data: {
 	                bubbleid: _this3.bubbleId,
 	                productid: _this3.productId,
+	                contextId: _this3.contextId,
 	                userId: userId,
 	                userName: userName,
 	                score: score,

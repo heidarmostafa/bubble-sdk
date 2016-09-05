@@ -12,7 +12,7 @@ let outputFilename = outputBaseFile;
 let sourceMaps = '';
 let isDebug = false;
 
-if((typeof process.env.NODE_ENV === 'undefined') || (process.env.NODE_ENV === 'development')) {
+if(typeof process.env.NODE_ENV === 'undefined' || process.env.NODE_ENV === 'development') {
     console.log('Compiling for development');
     entries.unshift('soda-sandbox');
     pluginParams['window.BubbleAPI'] = 'soda-sandbox';
