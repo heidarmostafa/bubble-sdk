@@ -6,7 +6,7 @@
     "build": "export NODE_ENV=production; webpack --config webpack.config.js -p",
     "win-build": "SET NODE_ENV=production && webpack --config webpack.config.js -p",
     "dev-build": "webpack --config webpack.config.js",
-    "generate-docs": "jsdoc2md src/BubbleSDK.class.js > BubbleSDK.md && jsdoc2md src/SodaMessage.class.js > SodaMessage.md && jsdoc2md src/LeaderBoard.class.js > LeaderBoard.md"
+    "generate-docs": "jsdoc2md src/*.js > API.md"
   },
   "dependencies": {},
   "devDependencies": {

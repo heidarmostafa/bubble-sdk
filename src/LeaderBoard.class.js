@@ -23,7 +23,6 @@ export class LeaderBoard {
 
 /**
  * Return the board of a specific context
- * @param {string} contextId
  * @returns {Promise}
  */
 LeaderBoard.prototype.getBoard = function() {
