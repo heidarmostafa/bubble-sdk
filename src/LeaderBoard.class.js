@@ -84,10 +84,17 @@ LeaderBoard.prototype.getUserBestScore = function(userId) {
 LeaderBoard.prototype.submitScore = function(userId, userName, score) {
 
     return new Promise((resolve, reject) => {
+
         reqwest({
             url: 'https://leaderboard.startappnetwork.com/leaderboard-service/leaderboard/submitscore',
-            method: 'post',
-            data: {
+            method: 'POST',
+            crossOrigin: true,
+            processData:false,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
                 bubbleid: this.bubbleId,
                 productid: this.productId,
                 contextId: this.contextId,
@@ -95,7 +102,7 @@ LeaderBoard.prototype.submitScore = function(userId, userName, score) {
                 userName: userName,
                 score: score,
                 ascending: this.ascending
-            },
+            }),
             success: function (resp) {
                 resolve(resp);
             },

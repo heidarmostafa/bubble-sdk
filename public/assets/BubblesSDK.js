@@ -1180,10 +1180,17 @@
 	    var _this3 = this;
 	
 	    return new Promise(function (resolve, reject) {
+	
 	        reqwest({
 	            url: 'https://leaderboard.startappnetwork.com/leaderboard-service/leaderboard/submitscore',
-	            method: 'post',
-	            data: {
+	            method: 'POST',
+	            crossOrigin: true,
+	            processData: false,
+	            headers: {
+	                'Accept': 'application/json',
+	                'Content-Type': 'application/json'
+	            },
+	            data: JSON.stringify({
 	                bubbleid: _this3.bubbleId,
 	                productid: _this3.productId,
 	                contextId: _this3.contextId,
@@ -1191,7 +1198,7 @@
 	                userName: userName,
 	                score: score,
 	                ascending: _this3.ascending
-	            },
+	            }),
 	            success: function success(resp) {
 	                resolve(resp);
 	            },
