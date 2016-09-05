@@ -33,7 +33,8 @@ a.sendRemoteMessage()
   });
 ~~~~
 
-# Bubble SDK Core
+# Bubble SDK Core API
+
 
 ## getMyLastSession() ⇒ <code>Promise.&lt;string&gt;</code>
 Get the last received sessionId.
@@ -187,19 +188,20 @@ Returns a new instance of the SodaMessage class
 
 <a name="getLeaderboardInstance"></a>
 
-## getLeaderboardInstance(bubbleId, productId, order) ⇒ <code>LeaderBoard</code>
-Returns a new instance of LaderBoard class
+## getLeaderboardInstance(bubbleId, productId, contextId, order) ⇒ <code>LeaderBoard</code>
+Returns a new instance of LeaderBoard class
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | bubbleId | <code>string</code> |  |
-| productId | <code>string</code> | Decided an suplied by StartApp |
-| order | <code>enum</code> | asc/desc string. Didctates what accounts for a better score - lower or higher numbers |
+| productId | <code>string</code> | Decided an supplied by StartApp |
+| contextId | <code>string</code> | The context id |
+| order | <code>enum</code> | asc/desc string. Dictates what accounts for a better score - lower or higher numbers |
 
+# Soda Message API
 
-# Soda Message
 
 ### new SodaMessage(sessionId)
 Creates an instance of SodaMessage
@@ -348,18 +350,19 @@ After the message values are set - execute this function to actually send it loc
 
 **Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
 
-# Leader Board
+# Leaderboard API
 
 
-### new LeaderBoard(bubbleId, productId, order)
+### new LeaderBoard(bubbleId, productId, contextId, order)
 Constructor of Leaderboard
 
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | bubbleId | <code>string</code> |  |  |
-| productId | <code>string</code> |  | Decided an suplied by StartApp |
-| order | <code>enum</code> | <code>desc</code> | asc/desc string. Didctates what accounts for a better score - lower or higher numbers |
+| productId | <code>string</code> |  | Decided an supplied by StartApp |
+| contextId | <code>string</code> |  | The context id |
+| order | <code>enum</code> | <code>desc</code> | asc/desc string. Dictates what accounts for a better score - lower or higher numbers |
 
 <a name="LeaderBoard+getBoard"></a>
 
@@ -395,4 +398,5 @@ Submit new score
 | userId | <code>string</code> | 
 | userName | <code>string</code> | 
 | score | <code>int</code> | 
+
 

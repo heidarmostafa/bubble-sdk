@@ -8,8 +8,9 @@ export class LeaderBoard {
      * Constructor of Leaderboard
      * @constructor
      * @param {string} bubbleId
-     * @param {string} productId - Decided an suplied by StartApp
-     * @param {enum} order - asc/desc string. Didctates what accounts for a better score - lower or higher numbers
+     * @param {string} productId - Decided an supplied by StartApp
+     * @param {string} contextId - The context id
+     * @param {enum} order - asc/desc string. Dictates what accounts for a better score - lower or higher numbers
      */
     constructor(bubbleId, productId, contextId, order = 'desc') {
         this.bubbleId = bubbleId;

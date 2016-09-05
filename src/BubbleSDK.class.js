@@ -211,14 +211,15 @@ module.exports = class BubbleSDK {
     };
 
     /**
-     * Returns a new instance of LaderBoard class
+     * Returns a new instance of LeaderBoard class
      * @param {string} bubbleId
-     * @param {string} productId - Decided an suplied by StartApp
-     * @param {enum} order - asc/desc string. Didctates what accounts for a better score - lower or higher numbers
+     * @param {string} productId - Decided an supplied by StartApp
+     * @param {string} contextId - The context id
+     * @param {enum} order - asc/desc string. Dictates what accounts for a better score - lower or higher numbers
      * @returns {LeaderBoard}
      */
-    static getLeaderboardInstance(bubbleId, productId, order) {
-        return new LeaderBoard(bubbleId, productId, order);
+    static getLeaderboardInstance(bubbleId, productId, contextId, order) {
+        return new LeaderBoard(bubbleId, productId, contextId, order);
     };
 
 };
