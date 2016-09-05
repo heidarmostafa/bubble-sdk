@@ -33,4 +33,4 @@ a.sendRemoteMessage()
   });
 ~~~~
 
-#[Click here for full API documentation](API.md)
+### [Click here for full API documentation](API.md)
