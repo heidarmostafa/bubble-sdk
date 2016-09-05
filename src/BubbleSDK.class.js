@@ -115,7 +115,7 @@ module.exports = class BubbleSDK {
      * @returns {Promise.<json>}
      */
     static getProductId() {
-        return this._getPromisedValueFromSdk(null, 'getProductId');
+        return this._getPromisedValueFromSdk('productId', 'getProductId');
     };
 
     /**

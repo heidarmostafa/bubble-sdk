@@ -618,7 +618,7 @@
 	         * @returns {Promise.<json>}
 	         */
 	        value: function getProductId() {
-	            return this._getPromisedValueFromSdk(null, 'getProductId');
+	            return this._getPromisedValueFromSdk('productId', 'getProductId');
 	        }
 	    }, {
 	        key: 'copyToClipboard',
