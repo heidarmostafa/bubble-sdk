@@ -33,8 +33,7 @@ a.sendRemoteMessage()
   });
 ~~~~
 
-#Full documentation
-
+# Bubble SDK Core
 
 ## getMyLastSession() ⇒ <code>Promise.&lt;string&gt;</code>
 Get the last received sessionId.
@@ -79,6 +78,12 @@ Generate a random session id
 ## getLastKnownLocation() ⇒ <code>Promise.&lt;json&gt;</code>
 Get last known location of the current user (doesn't query the GPS directly)
 [https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getlastknownlocation](https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getlastknownlocation)
+
+**Kind**: global function  
+<a name="getProductId"></a>
+
+## getProductId() ⇒ <code>Promise.&lt;json&gt;</code>
+Returns the current bubble's product ID
 
 **Kind**: global function  
 <a name="copyToClipboard"></a>
@@ -193,11 +198,12 @@ Returns a new instance of LaderBoard class
 | productId | <code>string</code> | Decided an suplied by StartApp |
 | order | <code>enum</code> | asc/desc string. Didctates what accounts for a better score - lower or higher numbers |
 
-#Soda Message
 
+# Soda Message
 
 ### new SodaMessage(sessionId)
 Creates an instance of SodaMessage
+[https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#the-msg-json-object](https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#the-msg-json-object)
 
 
 | Param | Type |
@@ -341,3 +347,52 @@ After the message values are set - execute this function to actually send it loc
 After the message values are set - execute this function to actually send it locally
 
 **Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+# Leader Board
+
+
+### new LeaderBoard(bubbleId, productId, order)
+Constructor of Leaderboard
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| bubbleId | <code>string</code> |  |  |
+| productId | <code>string</code> |  | Decided an suplied by StartApp |
+| order | <code>enum</code> | <code>desc</code> | asc/desc string. Didctates what accounts for a better score - lower or higher numbers |
+
+<a name="LeaderBoard+getBoard"></a>
+
+### leaderBoard.getBoard(contextId) ⇒ <code>Promise</code>
+Return the board of a specific context
+
+**Kind**: instance method of <code>[LeaderBoard](#LeaderBoard)</code>  
+
+| Param | Type |
+| --- | --- |
+| contextId | <code>string</code> | 
+
+<a name="LeaderBoard+getUserBestScore"></a>
+
+### leaderBoard.getUserBestScore(userId) ⇒ <code>Promise</code>
+Get user's best score for current bubble
+
+**Kind**: instance method of <code>[LeaderBoard](#LeaderBoard)</code>  
+
+| Param | Type |
+| --- | --- |
+| userId | <code>string</code> | 
+
+<a name="LeaderBoard+submitScore"></a>
+
+### leaderBoard.submitScore(userId, userName, score) ⇒ <code>Promise</code>
+Submit new score
+
+**Kind**: instance method of <code>[LeaderBoard](#LeaderBoard)</code>  
+
+| Param | Type |
+| --- | --- |
+| userId | <code>string</code> | 
+| userName | <code>string</code> | 
+| score | <code>int</code> | 
+

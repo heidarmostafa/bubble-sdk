@@ -6,6 +6,7 @@ export class SodaMessage {
 
     /**
      * Creates an instance of SodaMessage
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#the-msg-json-object}
      * @constructor
      * @param {string} sessionId
      */
@@ -153,7 +154,7 @@ SodaMessage.prototype.setIconUrl = function(iconUrl) {
 };
 
 /**
- * 	The URL for a notification preview banner
+ * The URL for a notification preview banner
  * @param {string} bannerUrl
  * @returns {SodaMessage}
  */

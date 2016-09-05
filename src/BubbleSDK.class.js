@@ -106,6 +106,14 @@ module.exports = class BubbleSDK {
     };
 
     /**
+     * Returns the current bubble's product ID
+     * @returns {Promise.<json>}
+     */
+    static getProductId() {
+        return this._getPromisedValueFromSdk(null, 'getProductId');
+    };
+
+    /**
      * Adds any give text to the device's clipboard, ready for pasting anywhere and outside the app
      * @param {string} text - The string we want to send to the clipboard
      * @returns {Promise.<json>}

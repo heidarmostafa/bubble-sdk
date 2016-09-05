@@ -8,8 +8,7 @@
     <script>
 
         function getBoardExample() {
-            var lb = BubbleSDK.getLeaderboardInstance("12" +
-                    "3", "222");
+            var lb = BubbleSDK.getLeaderboardInstance('123', "456");
             lb.getBoard("c1").then((res) => {
                 console.log(res);
             });
