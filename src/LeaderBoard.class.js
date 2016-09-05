@@ -3,18 +3,30 @@
 let reqwest = require('reqwest');
 
 export class LeaderBoard {
-    constructor(bubbleId, productId, order) {
+
+    /**
+     * Constructor of Leaderboard
+     * @constructor
+     * @param {string} bubbleId
+     * @param {string} productId - Decided an supplied by StartApp
+     * @param {string} contextId - The context id
+     * @param {enum} order - asc/desc string. Dictates what accounts for a better score - lower or higher numbers
+     */
+    constructor(bubbleId, productId, contextId, order = 'desc') {
         this.bubbleId = bubbleId;
         this.productId = productId;
-        if (typeof order !== 'undefined' && order === 'desc') {
-            this.ascending = false;
-        } else {
-            this.ascending = true;
-        }
+        this.contextId = contextId;
+        this.ascending = (order === 'asc');
+
     }
 }
 
-LeaderBoard.prototype.getBoard = function(contextId) {
+/**
+ * Return the board of a specific context
+ * @param {string} contextId
+ * @returns {Promise}
+ */
+LeaderBoard.prototype.getBoard = function() {
 
     return new Promise((resolve, reject) => {
         reqwest({
@@ -23,7 +35,7 @@ LeaderBoard.prototype.getBoard = function(contextId) {
             data: {
                 bubbleid: this.bubbleId,
                 productid: this.productId,
-                contextid: contextId
+                contextid: this.contextId
             },
             success: function (resp) {
                 resolve(resp);
@@ -36,6 +48,11 @@ LeaderBoard.prototype.getBoard = function(contextId) {
 
 };
 
+/**
+ * Get user's best score for current bubble
+ * @param {string} userId
+ * @returns {Promise}
+ */
 LeaderBoard.prototype.getUserBestScore = function(userId) {
 
     return new Promise((resolve, reject) => {
@@ -45,7 +62,7 @@ LeaderBoard.prototype.getUserBestScore = function(userId) {
             data: {
                 bubbleid: this.bubbleId,
                 productid: this.productId,
-                contextid: userId
+                userid: userId
             },
             success: function (resp) {
                 resolve(resp);
@@ -58,6 +75,13 @@ LeaderBoard.prototype.getUserBestScore = function(userId) {
 
 };
 
+/**
+ * Submit new score
+ * @param {string} userId
+ * @param {string} userName
+ * @param {int} score
+ * @returns {Promise}
+ */
 LeaderBoard.prototype.submitScore = function(userId, userName, score) {
 
     return new Promise((resolve, reject) => {
@@ -67,6 +91,7 @@ LeaderBoard.prototype.submitScore = function(userId, userName, score) {
             data: {
                 bubbleid: this.bubbleId,
                 productid: this.productId,
+                contextId: this.contextId,
                 userId: userId,
                 userName: userName,
                 score: score,
