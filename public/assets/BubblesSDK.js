@@ -152,9 +152,13 @@
 	                         or if such pointer exists but the window was closed */
 	                        var fullUrl = createUrl(url, sessionId, elem.userId, conversationId);
 	                        windowsObjectReference[elem.userId] = window.open(fullUrl, elem.userId); // The second param will cause it to only open in new tab if it doesn't exist.
-	                        setTimeout(function() {
-	                            windowsObjectReference[elem.userId].postMessage(me.userId, fullUrl);
-	                        }, 3000);
+	
+	                        if(typeof windowsObjectReference[elem.userId] !== 'undefined') {
+	                            setTimeout(function() {
+	                                windowsObjectReference[elem.userId].postMessage(me.userId, fullUrl);
+	                            }, 3000);
+	                        }
+	
 	                    }
 	                });
 	            }
@@ -316,7 +320,7 @@
 	    };
 	
 	    this.getProductId = function() {
-	        return '{"result":{"productId":"123"}}';
+	        return msgGenerator({"productId":"123"});
 	    };
 	
 	    // Async
@@ -506,6 +510,10 @@
 	        value: function _getPromisedValueFromSdk(field, call, args) {
 	            var _window$BubbleAPI,
 	                _this = this;
+	
+	            if (typeof args === 'undefined') {
+	                args = [];
+	            }
 	
 	            return (0, _utils.parseJSON)((_window$BubbleAPI = __webpack_provided_window_dot_BubbleAPI)[call].apply(_window$BubbleAPI, _toConsumableArray(args))).then(function (sdkResultJson) {
 	                return _this._extractResultFromJson(sdkResultJson);

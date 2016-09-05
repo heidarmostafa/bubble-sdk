@@ -23,6 +23,11 @@ module.exports = class BubbleSDK {
     };
 
     static _getPromisedValueFromSdk(field, call, args) {
+
+        if (typeof args === 'undefined') {
+            args = [];
+        }
+
         return parseJSON(window.BubbleAPI[call](...args))
             .then((sdkResultJson) => {
                 return this._extractResultFromJson(sdkResultJson);

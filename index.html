@@ -7,6 +7,8 @@
 
     <script>
 
+
+
         function getBoardExample() {
             var lb = BubbleSDK.getLeaderboardInstance('123', '456', 'c1');
             lb.getBoard().then((res) => {
@@ -14,15 +16,28 @@
             });
         }
 
+        function getProductId() {
+            BubbleSDK.getProductId().then((res) => {
+                console.log(res);
+            })
+        }
+
+        function closeBub() {
+            BubbleSDK.closeBubble();
+        }
+
     </script>
 
 </head>
 <body>
-    <button onclick="BubbleSDK.closeBubble()" style="height: 200px; width: 100%; font-size: 36px;">
+    <button onclick="closeBub()" style="height: 200px; width: 100%; font-size: 36px;">
         Try me - You won't regret it
     </button>
     <button onclick="getBoardExample()" style="height: 200px; width: 100%; font-size: 36px;">
         Get leaderboard
+    </button>
+    <button onclick="getProductId()" style="height: 200px; width: 100%; font-size: 36px;">
+        Get product id
     </button>
 </body>
 </html>
