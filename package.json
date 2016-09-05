@@ -3,10 +3,9 @@
   "version": "0.0.5",
   "private": true,
   "scripts": {
-    "build": "export NODE_ENV=production; webpack --config webpack.config.js -p",
-    "win-build": "SET NODE_ENV=production && webpack --config webpack.config.js -p",
-    "dev-build": "webpack --config webpack.config.js",
-    "generate-docs": "jsdoc2md src/*.js > API.md"
+    "build": "export NODE_ENV=production; webpack --config webpack.config.js -p; jsdoc2md src/*.js > API.md",
+    "win-build": "SET NODE_ENV=production && webpack --config webpack.config.js -p; jsdoc2md src/*.js > API.md",
+    "dev-build": "webpack --config webpack.config.js"
   },
   "dependencies": {},
   "devDependencies": {
