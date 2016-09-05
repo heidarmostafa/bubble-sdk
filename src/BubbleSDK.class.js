@@ -7,6 +7,7 @@ import {parseJSON, generateUUID, b64ToUtf8} from './utils.js';
 //noinspection JSUnusedLocalSymbols
 module.exports = class BubbleSDK {
 
+    //Private functions
     static _extractResultFromJson(json) {
         return new Promise((resolve, reject) => {
             if (json.success && json.result) {
@@ -106,16 +107,16 @@ module.exports = class BubbleSDK {
 
     /**
      * Adds any give text to the device's clipboard, ready for pasting anywhere and outside the app
-     * @param text
+     * @param {string} text - The string we want to send to the clipboard
      * @returns {Promise.<json>}
      */
-    static copyToClipboard(url) {
-        return this._getPromisedValueFromSdk(null, 'copyToClipboard', [url]);
+    static copyToClipboard(text) {
+        return this._getPromisedValueFromSdk(null, 'copyToClipboard', [text]);
     };
 
     /**
      * Open a given URL in the device's default web browser
-     * @param URL
+     * @param {string} URL - The URL to be opened
      * @returns {Promise.<string>}
      */
     static openInExternalBrowser(url) {
@@ -157,7 +158,7 @@ module.exports = class BubbleSDK {
     /**
      * Get active location of the current user (query the GPS directly)
      * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-getcurrentlocationasync}
-     * @param callback function
+     * @param {function} callback - The callback function
      */
     static getCurrentLocationAsync(cb) {
         window.BubbleAPI.getCurrentLocationAsync(cb);
@@ -166,7 +167,7 @@ module.exports = class BubbleSDK {
     /**
      * The SDK calls the provided callback function method whenever a new payload is available for the bubble (for example, when a new message arrives)
      * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble}
-     * @param callback function
+     * @param {function} callback -  The function that will called on payload event
      */
     static registerToPayloadEvent(cb) {
         window.setPayload = function(payload) {
@@ -182,7 +183,7 @@ module.exports = class BubbleSDK {
     /**
      * The SDK will call the provided callback function when a bubble is being terminated by the container application
      * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble}
-     * @param callback function
+     * @param {function} callback - The callback function
      */
     static registerToBubbleClosedEvent(cb) {
         window.bubbleClosed = function() {
@@ -191,10 +192,23 @@ module.exports = class BubbleSDK {
     };
 
     //Services
+
+    /**
+     * Returns a new instance of the SodaMessage class
+     * @param {string} sessionId
+     * @returns {SodaMessage}
+     */
     static getMessageInstance(sessionId) {
         return new SodaMessage(sessionId);
     };
 
+    /**
+     * Returns a new instance of LaderBoard class
+     * @param {string} bubbleId
+     * @param {string} productId - Decided an suplied by StartApp
+     * @param {enum} order - asc/desc string. Didctates what accounts for a better score - lower or higher numbers
+     * @returns {LeaderBoard}
+     */
     static getLeaderboardInstance(bubbleId, productId, order) {
         return new LeaderBoard(bubbleId, productId, order);
     };
