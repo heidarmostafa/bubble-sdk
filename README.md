@@ -193,3 +193,151 @@ Returns a new instance of LaderBoard class
 | productId | <code>string</code> | Decided an suplied by StartApp |
 | order | <code>enum</code> | asc/desc string. Didctates what accounts for a better score - lower or higher numbers |
 
+#Soda Message
+
+
+### new SodaMessage(sessionId)
+Creates an instance of SodaMessage
+
+
+| Param | Type |
+| --- | --- |
+| sessionId | <code>string</code> | 
+
+<a name="SodaMessage+setSessionId"></a>
+
+### sodaMessage.setSessionId(sessionId) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+The session Id of your message
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| sessionId | <code>string</code> | 
+
+<a name="SodaMessage+setPriority"></a>
+
+### sodaMessage.setPriority(priority) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+Priority is the "level of urgency" of this notification, by which it will be treated by the container application. Possible values:
+0. Silent - use this option to send in-bubble messages that won't be displayed on the container app
+1. Low
+2. Medium
+3. High
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| priority | <code>string</code> | 
+
+<a name="SodaMessage+setPayload"></a>
+
+### sodaMessage.setPayload(payload) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+The message content
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| payload | <code>string</code> | 
+
+<a name="SodaMessage+setActionType"></a>
+
+### sodaMessage.setActionType(actionType) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+The action performed by clicking this message.
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| actionType | <code>enum</code> | Options are OPEN, PLAY, INSTALL, ACCEPT, DOWNLOAD, PAY NOW, SHOP NOW, SIGN UP, BOOK NOW, VOTE |
+
+<a name="SodaMessage+setTitle"></a>
+
+### sodaMessage.setTitle(title) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+The notification title
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| title | <code>string</code> | 
+
+<a name="SodaMessage+setSubTitle"></a>
+
+### sodaMessage.setSubTitle(subTitle) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+The notification sub-title
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| subTitle | <code>string</code> | 
+
+<a name="SodaMessage+setText"></a>
+
+### sodaMessage.setText(text) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+The notification text
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| text | <code>string</code> | 
+
+<a name="SodaMessage+setIconUrl"></a>
+
+### sodaMessage.setIconUrl(iconUrl) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+The URL for a notification preview icon (square)
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| iconUrl | <code>string</code> | 
+
+<a name="SodaMessage+setBannerUrl"></a>
+
+### sodaMessage.setBannerUrl(bannerUrl) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+The URL for a notification preview banner
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| bannerUrl | <code>string</code> | 
+
+<a name="SodaMessage+setBubbleAppUrl"></a>
+
+### sodaMessage.setBubbleAppUrl(bubbleAppUrl) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+The "base URL" of the Bubble. This URL will be used by the SDK to open the Bubble on the other side. Leave this parameter blank to use the bubble's default URL.
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| bubbleAppUrl | <code>string</code> | 
+
+<a name="SodaMessage+setUpdateMsg"></a>
+
+### sodaMessage.setUpdateMsg(updateMsg) ⇒ <code>[SodaMessage](#SodaMessage)</code>
+Use this parameter to ask the container application to override the last native massage with new data.
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+
+| Param | Type |
+| --- | --- |
+| updateMsg | <code>string</code> | 
+
+<a name="SodaMessage+sendLocalMessage"></a>
+
+### sodaMessage.sendLocalMessage() ⇒ <code>Promise</code>
+After the message values are set - execute this function to actually send it locally
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
+<a name="SodaMessage+sendRemoteMessage"></a>
+
+### sodaMessage.sendRemoteMessage() ⇒ <code>Promise</code>
+After the message values are set - execute this function to actually send it locally
+
+**Kind**: instance method of <code>[SodaMessage](#SodaMessage)</code>  
