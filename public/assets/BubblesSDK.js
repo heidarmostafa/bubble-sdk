@@ -1128,9 +1128,9 @@
 	            url: 'https://leaderboard.startappnetwork.com/leaderboard-service/leaderboard/getboard',
 	            method: 'get',
 	            data: {
-	                bubbleid: _this.bubbleId,
-	                productid: _this.productId,
-	                contextid: _this.contextId
+	                bubbleId: _this.bubbleId,
+	                productId: _this.productId,
+	                contextId: _this.contextId
 	            },
 	            success: function success(resp) {
 	                resolve(resp);
@@ -1155,9 +1155,9 @@
 	            url: 'https://leaderboard.startappnetwork.com/leaderboard-service/leaderboard/getuserbestscore',
 	            method: 'get',
 	            data: {
-	                bubbleid: _this2.bubbleId,
-	                productid: _this2.productId,
-	                userid: userId
+	                bubbleId: _this2.bubbleId,
+	                productId: _this2.productId,
+	                userId: userId
 	            },
 	            success: function success(resp) {
 	                resolve(resp);
@@ -1191,8 +1191,8 @@
 	                'Content-Type': 'application/json'
 	            },
 	            data: JSON.stringify({
-	                bubbleid: _this3.bubbleId,
-	                productid: _this3.productId,
+	                bubbleId: _this3.bubbleId,
+	                productId: _this3.productId,
 	                contextId: _this3.contextId,
 	                userId: userId,
 	                userName: userName,

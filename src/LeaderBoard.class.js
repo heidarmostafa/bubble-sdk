@@ -32,9 +32,9 @@ LeaderBoard.prototype.getBoard = function() {
             url: 'https://leaderboard.startappnetwork.com/leaderboard-service/leaderboard/getboard',
             method: 'get',
             data: {
-                bubbleid: this.bubbleId,
-                productid: this.productId,
-                contextid: this.contextId
+                bubbleId: this.bubbleId,
+                productId: this.productId,
+                contextId: this.contextId
             },
             success: function (resp) {
                 resolve(resp);
@@ -59,9 +59,9 @@ LeaderBoard.prototype.getUserBestScore = function(userId) {
             url: 'https://leaderboard.startappnetwork.com/leaderboard-service/leaderboard/getuserbestscore',
             method: 'get',
             data: {
-                bubbleid: this.bubbleId,
-                productid: this.productId,
-                userid: userId
+                bubbleId: this.bubbleId,
+                productId: this.productId,
+                userId: userId
             },
             success: function (resp) {
                 resolve(resp);
@@ -95,8 +95,8 @@ LeaderBoard.prototype.submitScore = function(userId, userName, score) {
                 'Content-Type': 'application/json'
             },
             data: JSON.stringify({
-                bubbleid: this.bubbleId,
-                productid: this.productId,
+                bubbleId: this.bubbleId,
+                productId: this.productId,
                 contextId: this.contextId,
                 userId: userId,
                 userName: userName,
