@@ -8,11 +8,16 @@
     <script>
 
 
-
         function getBoardExample() {
             var lb = BubbleSDK.getLeaderboardInstance('123', '456', 'c1');
-            lb.submitScore("sdfsdf","sdfsdf",56).then((res) => {
-                console.log(res);
+            lb.submitScore('arik','arik',120).then((res) => {
+                console.log('Score sent', res);
+                lb.getBoard().then((res) => {
+                    console.log('Got board', res);
+                    lb.getUserBestScore('arik').then((res) => {
+                        console.log('Got user best score', res);
+                    });
+                });
             });
         }
 

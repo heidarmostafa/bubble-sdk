@@ -12,7 +12,7 @@ export class LeaderBoard {
      * @param {string} contextId - The context id
      * @param {enum} order - asc/desc string. Dictates what accounts for a better score - lower or higher numbers
      */
-    constructor(bubbleId, productId, contextId, order = 'desc') {
+    constructor(bubbleId, productId, contextId, order = 'asc') {
         this.bubbleId = bubbleId;
         this.productId = productId;
         this.contextId = contextId;

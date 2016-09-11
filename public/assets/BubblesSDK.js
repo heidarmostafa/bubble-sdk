@@ -1104,7 +1104,7 @@
 	 * @param {enum} order - asc/desc string. Dictates what accounts for a better score - lower or higher numbers
 	 */
 	exports.LeaderBoard = function LeaderBoard(bubbleId, productId, contextId) {
-	    var order = arguments.length <= 3 || arguments[3] === undefined ? 'desc' : arguments[3];
+	    var order = arguments.length <= 3 || arguments[3] === undefined ? 'asc' : arguments[3];
 	
 	    _classCallCheck(this, LeaderBoard);
 	
