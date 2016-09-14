@@ -103,7 +103,7 @@ Constructor of Leaderboard
 | bubbleId | <code>string</code> |  |  |
 | productId | <code>string</code> |  | Decided an supplied by StartApp |
 | contextId | <code>string</code> |  | The context id |
-| order | <code>enum</code> | <code>desc</code> | asc/desc string. Dictates what accounts for a better score - lower or higher numbers |
+| order | <code>enum</code> | <code>asc</code> | asc/desc string. Dictates what accounts for a better score - lower or higher numbers |
 
 <a name="LeaderBoard+getBoard"></a>
 
