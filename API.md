@@ -73,6 +73,10 @@ Might be returned using the following sources:</p>
 <dd><p>The SDK will call the provided callback function when a bubble is being terminated by the container application
 <a href="https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble">https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble</a></p>
 </dd>
+<dt><a href="#registerToBubbleBackHandler">registerToBubbleBackHandler(callback)</a></dt>
+<dd><p>Register to native back button event
+<a href="https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble">https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble</a></p>
+</dd>
 <dt><a href="#getMessageInstance">getMessageInstance(sessionId)</a> ⇒ <code><a href="#SodaMessage">SodaMessage</a></code></dt>
 <dd><p>Returns a new instance of the SodaMessage class</p>
 </dd>
@@ -444,6 +448,18 @@ The SDK will call the provided callback function when a bubble is being terminat
 | Param | Type | Description |
 | --- | --- | --- |
 | callback | <code>function</code> | The callback function |
+
+<a name="registerToBubbleBackHandler"></a>
+
+## registerToBubbleBackHandler(callback)
+Register to native back button event
+[https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble](https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble)
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>function</code> | The callback function that handles the back action |
 
 <a name="getMessageInstance"></a>
 
