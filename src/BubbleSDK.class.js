@@ -199,9 +199,16 @@ module.exports = class BubbleSDK {
      * @param {function} callback - The callback function
      */
     static registerToBubbleClosedEvent(cb) {
-        window.bubbleClosed = function() {
-            cb();
-        };
+        window.bubbleClosed = cb;
+    }
+
+    /**
+     * Register to native back button event
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble}
+     * @param {function} callback - The callback function that handles the back action
+     */
+    static registerToBubbleBackHandler(cb) {
+        window.bubbleBackHandler = cb;
     };
 
     //Services

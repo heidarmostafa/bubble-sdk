@@ -81,6 +81,17 @@
 	
 	    window.addEventListener("message", receiveMessageFromOtherWindow, false);
 	
+	    function cloneAsObject(obj) {
+	        if (obj === null || !(obj instanceof Object)) {
+	            return obj;
+	        }
+	        var temp = (obj instanceof Array) ? [] : {};
+	        for (var key in obj) {
+	            temp[key] = cloneAsObject(obj[key]);
+	        }
+	        return temp;
+	    }
+	
 	    function getURLParameter(name) {
 	        var where = (window.location.search === "") ? window.location.hash : window.location.search;
 	        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(where)||[,""])[1].replace(/\+/g, '%20'))||null;
@@ -285,7 +296,7 @@
 	
 	    this.getLastKnownLocation = function(err) {
 	        if (typeof err === "number" && err >= 0) return errorMsgGenerator(err);
-	        return msgGenerator(location);
+	        return msgGenerator(cloneAsObject(location));
 	    };
 	
 	    this.getUserPicture = function(userId, err) {
@@ -726,9 +737,19 @@
 	         * @param {function} callback - The callback function
 	         */
 	        value: function registerToBubbleClosedEvent(cb) {
-	            window.bubbleClosed = function () {
-	                cb();
-	            };
+	            window.bubbleClosed = cb;
+	        }
+	
+	        /**
+	         * Register to native back button event
+	         * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#sdk-to-bubble}
+	         * @param {function} callback - The callback function that handles the back action
+	         */
+	
+	    }, {
+	        key: 'registerToBubbleBackHandler',
+	        value: function registerToBubbleBackHandler(cb) {
+	            window.bubbleBackHandler = cb;
 	        }
 	    }, {
 	        key: 'getMessageInstance',

@@ -8,7 +8,10 @@
     "win-build": "SET NODE_ENV=production && webpack --config webpack.config.js -p; jsdoc2md src/*.js > API.md",
     "dev-build": "webpack --config webpack.config.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jsdoc-to-markdown": "^1.3.7",
+    "reqwest": "^2.0.5"
+  },
   "devDependencies": {
     "babel-core": "^6.11.4",
     "babel-loader": "^6.2.4",
