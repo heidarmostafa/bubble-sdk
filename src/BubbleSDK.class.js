@@ -98,7 +98,7 @@ module.exports = class BubbleSDK {
         return this.getMyLastSession()
             .catch(() => {
                 return Promise.resolve(generateUUID());
-        });
+            });
     };
 
     /**
@@ -234,4 +234,18 @@ module.exports = class BubbleSDK {
         return new LeaderBoard(bubbleId, productId, contextId, order);
     };
 
+    /**
+     * Returns true if current bubble is taking place in social app, means more than one person in current session, otherwise false.
+     * {@link https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-issocial}
+     * @returns {Promise.<json>}
+     */
+    static isSocial() {
+        return this._getPromisedValueFromSdk(null, 'getFriendsDetails').then((details) => {
+            if (Array.isArray(details)) {
+                return details.length > 0;
+            }
+        }).catch((details) => {
+            return false;
+        });
+    }
 };

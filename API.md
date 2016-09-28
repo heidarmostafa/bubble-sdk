@@ -83,6 +83,10 @@ Might be returned using the following sources:</p>
 <dt><a href="#getLeaderboardInstance">getLeaderboardInstance(bubbleId, productId, contextId, order)</a> ⇒ <code><a href="#LeaderBoard">LeaderBoard</a></code></dt>
 <dd><p>Returns a new instance of LeaderBoard class</p>
 </dd>
+<dt><a href="#isSocial">isSocial()</a> ⇒ <code>Promise.&lt;json&gt;</code></dt>
+<dd><p>Returns true if current bubble is taking place in social app, means more than one person in current session, otherwise false.
+<a href="https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-issocial">https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-issocial</a></p>
+</dd>
 </dl>
 
 <a name="LeaderBoard"></a>
@@ -486,3 +490,10 @@ Returns a new instance of LeaderBoard class
 | contextId | <code>string</code> | The context id |
 | order | <code>enum</code> | asc/desc string. Dictates what accounts for a better score - lower or higher numbers |
 
+<a name="isSocial"></a>
+
+## isSocial() ⇒ <code>Promise.&lt;json&gt;</code>
+Returns true if current bubble is taking place in social app, means more than one person in current session, otherwise false.
+[https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-issocial](https://github.com/StartApp-SDK/SODA/wiki/Bubbles-Integration#-issocial)
+
+**Kind**: global function  
