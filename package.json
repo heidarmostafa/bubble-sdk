@@ -1,17 +1,15 @@
 {
   "name": "bubble-sdk",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "public/assets/BubblesSDK.min.js",
   "scripts": {
     "build": "export NODE_ENV=production; webpack --config webpack.config.js -p; jsdoc2md src/*.js > API.md",
     "win-build": "SET NODE_ENV=production && webpack --config webpack.config.js -p; jsdoc2md src/*.js > API.md",
     "dev-build": "webpack --config webpack.config.js"
   },
-  "dependencies": {
-    "jsdoc-to-markdown": "^1.3.7",
-    "reqwest": "^2.0.5"
-  },
   "devDependencies": {
+    "reqwest": "^2.0.5",
+    "jsdoc-to-markdown": "^1.3.7",
     "babel-core": "^6.11.4",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
