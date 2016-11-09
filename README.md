@@ -8,7 +8,7 @@ This document contains all the relevant information and API’s in order to enab
 
 **StartApp SDK -** StartApp Software Development Kit. A reusable library integrated into the container app to enable StartApp Bubbles. (communication, persistence, life cycle, etc.)
 
-**Bubble App -**Bubble App - An HTML based application that sits elegantly inside the container application.
+**Bubble App -** Bubble App - An HTML based application that sits elegantly inside the container application.
 For example: A social game, service application, etc.
 
 
