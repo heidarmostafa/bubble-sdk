@@ -5,6 +5,7 @@ This document contains all the relevant information and API’s in order to enab
 
 # Definitions
 **Container Application -** The hosting application that embeds StartApp SDK. The application controls the position and size of the Bubble's view in addition to Bubble’s discovery.
+
 **StartApp SDK -** StartApp Software Development Kit. A reusable library integrated into the container app to enable StartApp Bubbles. (communication, persistence, life cycle, etc.)
 
 **Bubble App -**Bubble App - An HTML based application that sits elegantly inside the container application.
