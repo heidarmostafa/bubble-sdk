@@ -4,6 +4,7 @@ let path = require('path');
 let webpack = require('webpack');
 
 let entries = [
+    'babel-polyfill',
     './src/BubbleSDK.class.js'
 ];
 let pluginParams = {};
