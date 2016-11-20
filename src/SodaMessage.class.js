@@ -101,7 +101,7 @@ SodaMessage.prototype.setPayload = function(payload) {
  * @returns {SodaMessage}
  */
 SodaMessage.prototype.setActionType = function(actionType) {
-    const ACTION_TYPES = ['OPEN', 'PLAY', 'INSTALL', 'ACCEPT', 'DOWNLOAD', 'PAY NOW', 'SHOP NOW', 'SIGN UP', 'BOOK NOW', 'VOTE'];
+    const ACTION_TYPES = ['OPEN', 'PLAY', 'INSTALL', 'ACCEPT', 'DOWNLOAD', 'PAY NOW', 'SHOP NOW', 'SIGN UP', 'BOOK NOW', 'VOTE', 'READ'];
 
     if (actionType === null || isInArray(actionType, ACTION_TYPES)) {
         this.actionType = actionType;
