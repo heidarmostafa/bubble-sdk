@@ -1,6 +1,6 @@
 {
   "name": "bubble-sdk",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "main": "public/assets/BubblesSDK.min.js",
   "scripts": {
     "build": "export NODE_ENV=production; webpack --config webpack.config.js -p; jsdoc2md src/*.js > API.md",
