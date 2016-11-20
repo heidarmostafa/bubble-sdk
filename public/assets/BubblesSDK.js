@@ -9025,7 +9025,7 @@
 	 * @returns {SodaMessage}
 	 */
 	SodaMessage.prototype.setActionType = function (actionType) {
-	    var ACTION_TYPES = ['OPEN', 'PLAY', 'INSTALL', 'ACCEPT', 'DOWNLOAD', 'PAY NOW', 'SHOP NOW', 'SIGN UP', 'BOOK NOW', 'VOTE'];
+	    var ACTION_TYPES = ['OPEN', 'PLAY', 'INSTALL', 'ACCEPT', 'DOWNLOAD', 'PAY NOW', 'SHOP NOW', 'SIGN UP', 'BOOK NOW', 'VOTE', 'READ'];
 	
 	    if (actionType === null || (0, _utils.isInArray)(actionType, ACTION_TYPES)) {
 	        this.actionType = actionType;
